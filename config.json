@@ -3,5 +3,6 @@
   "endDate": "2018-21-02",
   "storage": "path/to/prao-files",
   "range": "north",
-  "step": 10
+  "step": 10,
+  "outputPath:": "/path/to/output"
 }
