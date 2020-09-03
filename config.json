@@ -1,0 +1,7 @@
+{
+  "startDate": "2018-21-01",
+  "endDate": "2018-21-02",
+  "storage": "path/to/prao-files",
+  "range": "north",
+  "step": 10
+}
