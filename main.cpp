@@ -15,9 +15,8 @@ int main(int argc, char **argv) {
         std::cout << "provide --c or -config argument" << std::endl;
         std::cout << args[1] << std::endl;
         exit(-1);
-    }
+//    }
 
-    // TODO 2. Сканировать файлы в папке в TimeCoordinateHandler
     // TODO 3. Брать первый файл в качестве опорного. Сгенерить тайм-координаты согласно опорному файлу
     // TODO 5. Написать метод, вытаскивающий из файла нужный отрезок по звездному времени
 }

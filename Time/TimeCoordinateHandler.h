@@ -7,18 +7,24 @@
 
 
 #include <string>
+#include "../Config/Config.h"
+#include <ctime>
 
 class TimeCoordinateHandler {
 private:
-
-    std::string startDate;
-    std::string endDate;
+    tm startDate;
+    tm endDate;
     std::string fileStorage;
     std::string range;
     int step;
 
+private:
+    tm getDateTimeFormString(std::string dateTimeAsString);
+    std::vector<std::string> parseString(std::string inputString, const std::string& delimiter);
+    std::string getFileNameOfFirstFile();
+
 public:
-    TimeCoordinateHandler(char *configFile);
+    explicit TimeCoordinateHandler(char *configFile);
 };
 
 

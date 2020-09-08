@@ -10,17 +10,12 @@
 
 class TimeCoordinate {
 private:
-    int ray;
-    int starTime;
+    int ray{};
+    int starTime{};
 public:
-    TimeCoordinate(int ray, int sec, const std::string &filename, int starTime) : ray(ray),
-                                                                                  starTime(starTime) {
+    TimeCoordinate(int ray, int starTime) : ray(ray), starTime(starTime) {}
 
-    }
-
-    TimeCoordinate() {
-
-    }
+    TimeCoordinate() = default;
 
     int getRay() const {
         return ray;

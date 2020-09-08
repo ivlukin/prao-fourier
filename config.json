@@ -2,7 +2,7 @@
   "startDate": "2018-21-01",
   "endDate": "2018-21-02",
   "storage": "path/to/prao-files",
-  "range": "north",
+  "range": "N1",
   "step": 10,
   "outputPath:": "/path/to/output"
 }
