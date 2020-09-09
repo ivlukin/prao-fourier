@@ -8,20 +8,28 @@
 
 #include <string>
 #include "../Config/Config.h"
+#include "../Data/DataHeader.h"
+#include "TimeCoordinate.h"
 #include <ctime>
+#include <sstream>
+#include <iomanip>
+#include <vector>
 
 class TimeCoordinateHandler {
 private:
-    tm startDate;
-    tm endDate;
+    tm startDate{};
+    tm endDate{};
     std::string fileStorage;
     std::string range;
     int step;
+    DataHeader firstFileDataHeader{};
+    std::vector<TimeCoordinate> timeCoordinateSet;
 
 private:
-    tm getDateTimeFormString(std::string dateTimeAsString);
-    std::vector<std::string> parseString(std::string inputString, const std::string& delimiter);
-    std::string getFileNameOfFirstFile();
+    tm getDateTimeFromString(std::string dateTimeAsString);
+    std::vector<std::string> parseStringToDate(std::string inputString, const std::string& delimiter);
+    std::string getFileNameFromDate(int year, int month, int day, int hour);
+    DataHeader getFirstFileDataHeader();
 
 public:
     explicit TimeCoordinateHandler(char *configFile);

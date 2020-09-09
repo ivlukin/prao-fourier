@@ -2,23 +2,21 @@
 // Created by sorrow on 03.09.2020.
 //
 
-#include <vector>
+
 #include "TimeCoordinateHandler.h"
-#include <sstream>
-#include <iomanip>
 
 
 TimeCoordinateHandler::TimeCoordinateHandler(char *configFile) {
     Config config = Config(configFile);
     this->fileStorage = config.getStoragePath();
-    this->startDate = getDateTimeFormString(config.getStartDate());
-    this->endDate = getDateTimeFormString(config.getEndDate());
+    this->startDate = getDateTimeFromString(config.getStartDate());
+    this->endDate = getDateTimeFromString(config.getEndDate());
     this->step = config.getStep();
     this->range = config.getRange();
 }
 
-tm TimeCoordinateHandler::getDateTimeFormString(std::string dateTimeAsString) {
-    std::vector<std::string> parts = parseString(dateTimeAsString, "-");
+tm TimeCoordinateHandler::getDateTimeFromString(std::string dateTimeAsString) {
+    std::vector<std::string> parts = parseStringToDate(dateTimeAsString, "-");
     int year, month, day;
     std::stringstream(parts[0]) >> year;
     std::stringstream(parts[1]) >> month;
@@ -30,7 +28,8 @@ tm TimeCoordinateHandler::getDateTimeFormString(std::string dateTimeAsString) {
     return dateTime;
 }
 
-std::vector<std::string> TimeCoordinateHandler::parseString(std::string inputString, const std::string& delimiter) {
+std::vector<std::string>
+TimeCoordinateHandler::parseStringToDate(std::string inputString, const std::string &delimiter) {
     size_t pos = 0;
     std::string token;
     std::vector<std::string> out = std::vector<std::string>();
@@ -43,21 +42,41 @@ std::vector<std::string> TimeCoordinateHandler::parseString(std::string inputStr
     return out;
 }
 
-std::string TimeCoordinateHandler::getFileNameOfFirstFile() {
+std::string TimeCoordinateHandler::getFileNameFromDate(int year, int month, int day, int hour) {
     std::string path;
 
     std::stringstream ss;
-    ss << std::setw(2) << std::setfill('0') << this->startDate.tm_mday;
+    ss << std::setw(2) << std::setfill('0') << day;
     std::string s = ss.str();
     path += s;
 
-    ss << std::setw(2) << std::setfill('0') << this->startDate.tm_mon;
+    ss << std::setw(2) << std::setfill('0') << month;
     s = ss.str();
     path += s;
 
-    path += std::to_string(this->startDate.tm_year).substr(2);
+    path += std::to_string(year).substr(2);
+    path += "_";
 
-    path += "_00_" + range + "_00";
+    ss << std::setw(2) << std::setfill('0') << hour;
+    s = ss.str();
+    path += s;
+
+    path += "_" + range + "_00";
 
     return path;
+}
+
+DataHeader TimeCoordinateHandler::getFirstFileDataHeader() {
+    std::string firstFilePath = getFileNameFromDate(this->startDate.tm_yday, this->startDate.tm_mon,
+                                                    this->startDate.tm_mday, 1);
+    std::ifstream in = std::ifstream(firstFilePath, std::ios::binary | std::ios::in);
+    if (!in.good()) {
+        throw std::logic_error(firstFilePath + " file not found");
+    }
+
+    DataHeader dataHeader = {};
+    in >> dataHeader;
+    in.close();
+
+    return dataHeader;
 }

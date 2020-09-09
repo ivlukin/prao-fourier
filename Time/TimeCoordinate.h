@@ -11,7 +11,9 @@
 class TimeCoordinate {
 private:
     int ray{};
-    int starTime{};
+    double starTime{};
+    double MJD{};
+    double sunTime{};
 public:
     TimeCoordinate(int ray, int starTime) : ray(ray), starTime(starTime) {}
 
@@ -26,12 +28,32 @@ public:
     }
 
 
-    int getStarTime() const {
+    double getStarTime() const {
         return starTime;
     }
 
     void setStarTime(int starTime) {
         TimeCoordinate::starTime = starTime;
+    }
+
+    void setStarTime1(double starTime) {
+        TimeCoordinate::starTime = starTime;
+    }
+
+    double getMjd() const {
+        return MJD;
+    }
+
+    void setMjd(double mjd) {
+        MJD = mjd;
+    }
+
+    double getSunTime() const {
+        return sunTime;
+    }
+
+    void setSunTime(double sunTime) {
+        TimeCoordinate::sunTime = sunTime;
     }
 };
 
