@@ -1,8 +1,8 @@
 {
-  "startDate": "2018-21-01",
-  "endDate": "2018-21-02",
+  "startDate": "2018-01-21",
+  "endDate": "2018-02-21",
   "storage": "path/to/prao-files",
   "range": "N1",
   "step": 10,
-  "outputPath:": "/path/to/output"
+  "outputPath": "/path/to/output"
 }

@@ -50,6 +50,7 @@ std::string TimeCoordinateHandler::getFileNameFromDate(int year, int month, int 
     std::string s = ss.str();
     path += s;
 
+    ss = std::stringstream();
     ss << std::setw(2) << std::setfill('0') << month;
     s = ss.str();
     path += s;
@@ -57,6 +58,7 @@ std::string TimeCoordinateHandler::getFileNameFromDate(int year, int month, int 
     path += std::to_string(year).substr(2);
     path += "_";
 
+    ss = std::stringstream();
     ss << std::setw(2) << std::setfill('0') << hour;
     s = ss.str();
     path += s;
@@ -67,7 +69,7 @@ std::string TimeCoordinateHandler::getFileNameFromDate(int year, int month, int 
 }
 
 DataHeader TimeCoordinateHandler::getFirstFileDataHeader() {
-    std::string firstFilePath = getFileNameFromDate(this->startDate.tm_yday, this->startDate.tm_mon,
+    std::string firstFilePath = getFileNameFromDate(this->startDate.tm_year, this->startDate.tm_mon,
                                                     this->startDate.tm_mday, 1);
     std::ifstream in = std::ifstream(firstFilePath, std::ios::binary | std::ios::in);
     if (!in.good()) {
@@ -82,9 +84,13 @@ DataHeader TimeCoordinateHandler::getFirstFileDataHeader() {
 }
 
 void TimeCoordinateHandler::generateTimeCoordinates() {
+    DataHeader dataHeader = getFirstFileDataHeader();
     for (int ray = 1; ray <= 48; ray++) {
         for (int sec = 0; sec <= 3600 * 24; sec += 10) {
-            tm exactTime = startDate; // TODO добавить сложение дат
+            tm exactTime = startDate;
+            int epochTime = tm_SubDefault(exactTime);
+            epochTime += sec;
+
             TimeCoordinate timeCoordinate = TimeCoordinate(ray, exactTime);
             timeCoordinate.setIsHead(true);
         }

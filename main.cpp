@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include "Time/TimeCoordinateHandler.h"
 
 int main(int argc, char **argv) {
     std::vector<std::string> args;
@@ -15,9 +16,12 @@ int main(int argc, char **argv) {
         std::cout << "provide --c or -config argument" << std::endl;
         std::cout << args[1] << std::endl;
         exit(-1);
-//    }
-
-        // TODO 3. Брать первый файл в качестве опорного. Сгенерить тайм-координаты согласно опорному файлу
-        // TODO 5. Написать метод, вытаскивающий из файла нужный отрезок по звездному времени
     }
+
+    TimeCoordinateHandler handler = TimeCoordinateHandler(args[2].data());
+    handler.generateTimeCoordinates();
+    std::cout << "end" << std::endl;
+
+    // TODO 3. Брать первый файл в качестве опорного. Сгенерить тайм-координаты согласно опорному файлу
+    // TODO 5. Написать метод, вытаскивающий из файла нужный отрезок по звездному времени
 }

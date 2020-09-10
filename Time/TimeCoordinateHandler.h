@@ -14,6 +14,7 @@
 #include <sstream>
 #include <iomanip>
 #include <vector>
+#include "TimeUtils.h"
 
 class TimeCoordinateHandler {
 private:
@@ -30,10 +31,11 @@ private:
     std::vector<std::string> parseStringToDate(std::string inputString, const std::string& delimiter);
     std::string getFileNameFromDate(int year, int month, int day, int hour);
     DataHeader getFirstFileDataHeader();
-    void generateTimeCoordinates();
+
 
 public:
     explicit TimeCoordinateHandler(char *configFile);
+    void generateTimeCoordinates();
 };
 
 

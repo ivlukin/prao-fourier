@@ -23,10 +23,10 @@ Config::Config(char *fileName) {
 
     this->startDate= d["startDate"].GetString();
     this->outputPath = d["outputPath"].GetString();
-    this->endDate = d["outputPath"].GetString();
-    this->storagePath = d["outputPath"].GetString();
-    this->range = d["outputPath"].GetString();
-    this->step = d["outputPath"].GetInt();
+    this->endDate = d["endDate"].GetString();
+    this->storagePath = d["storage"].GetString();
+    this->range = d["range"].GetString();
+    this->step = d["step"].GetInt();
 }
 
 const std::string &Config::getStartDate() const {
