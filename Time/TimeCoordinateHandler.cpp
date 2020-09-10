@@ -80,3 +80,13 @@ DataHeader TimeCoordinateHandler::getFirstFileDataHeader() {
 
     return dataHeader;
 }
+
+void TimeCoordinateHandler::generateTimeCoordinates() {
+    for (int ray = 1; ray <= 48; ray++) {
+        for (int sec = 0; sec <= 3600 * 24; sec += 10) {
+            tm exactTime = startDate; // TODO добавить сложение дат
+            TimeCoordinate timeCoordinate = TimeCoordinate(ray, exactTime);
+            timeCoordinate.setIsHead(true);
+        }
+    }
+}

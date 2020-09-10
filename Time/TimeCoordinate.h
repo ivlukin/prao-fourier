@@ -7,6 +7,7 @@
 
 
 #include <string>
+#include <vector>
 
 class TimeCoordinate {
 private:
@@ -14,8 +15,11 @@ private:
     double starTime{};
     double MJD{};
     double sunTime{};
+    bool isHead{};
+    tm UTC_time {};
+    std::vector<TimeCoordinate> timeCoordinatesWithSameStarTime;
 public:
-    TimeCoordinate(int ray, int starTime) : ray(ray), starTime(starTime) {}
+    TimeCoordinate(int ray, tm UTC_time) : ray(ray), UTC_time(UTC_time) {}
 
     TimeCoordinate() = default;
 
@@ -32,11 +36,7 @@ public:
         return starTime;
     }
 
-    void setStarTime(int starTime) {
-        TimeCoordinate::starTime = starTime;
-    }
-
-    void setStarTime1(double starTime) {
+    void setStarTime(double starTime) {
         TimeCoordinate::starTime = starTime;
     }
 
@@ -54,6 +54,30 @@ public:
 
     void setSunTime(double sunTime) {
         TimeCoordinate::sunTime = sunTime;
+    }
+
+    bool isHead1() const {
+        return isHead;
+    }
+
+    void setIsHead(bool isHead) {
+        TimeCoordinate::isHead = isHead;
+    }
+
+    const tm &getUtcTime() const {
+        return UTC_time;
+    }
+
+    void setUtcTime(const tm &utcTime) {
+        UTC_time = utcTime;
+    }
+
+    const std::vector<TimeCoordinate> &getTimeCoordinatesWithSameStarTime() const {
+        return timeCoordinatesWithSameStarTime;
+    }
+
+    void setTimeCoordinatesWithSameStarTime(const std::vector<TimeCoordinate> &timeCoordinatesWithSameStarTime) {
+        TimeCoordinate::timeCoordinatesWithSameStarTime = timeCoordinatesWithSameStarTime;
     }
 };
 
