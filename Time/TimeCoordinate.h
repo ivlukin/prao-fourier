@@ -16,10 +16,10 @@ private:
     double MJD{};
     double sunTime{};
     bool isHead{};
-    tm UTC_time {};
-    std::vector<TimeCoordinate> timeCoordinatesWithSameStarTime;
+    tm *UTC_time {}; // UTC - 1900!!!
+    std::vector<TimeCoordinate> timeCoordinatesWithSameStarTime = std::vector<TimeCoordinate>();
 public:
-    TimeCoordinate(int ray, tm UTC_time) : ray(ray), UTC_time(UTC_time) {}
+    TimeCoordinate(int ray, tm *UTC_time) : ray(ray), UTC_time(UTC_time) {}
 
     TimeCoordinate() = default;
 
@@ -64,13 +64,6 @@ public:
         TimeCoordinate::isHead = isHead;
     }
 
-    const tm &getUtcTime() const {
-        return UTC_time;
-    }
-
-    void setUtcTime(const tm &utcTime) {
-        UTC_time = utcTime;
-    }
 
     const std::vector<TimeCoordinate> &getTimeCoordinatesWithSameStarTime() const {
         return timeCoordinatesWithSameStarTime;
@@ -78,6 +71,14 @@ public:
 
     void setTimeCoordinatesWithSameStarTime(const std::vector<TimeCoordinate> &timeCoordinatesWithSameStarTime) {
         TimeCoordinate::timeCoordinatesWithSameStarTime = timeCoordinatesWithSameStarTime;
+    }
+
+    tm *getUtcTime() const {
+        return UTC_time;
+    }
+
+    void setUtcTime(tm *utcTime) {
+        UTC_time = utcTime;
     }
 };
 

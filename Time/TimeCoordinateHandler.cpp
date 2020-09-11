@@ -69,8 +69,8 @@ std::string TimeCoordinateHandler::getFileNameFromDate(int year, int month, int 
 }
 
 DataHeader TimeCoordinateHandler::getFirstFileDataHeader() {
-    std::string firstFilePath = getFileNameFromDate(this->startDate.tm_year, this->startDate.tm_mon,
-                                                    this->startDate.tm_mday, 1);
+    std::string firstFilePath = this->fileStorage + getFileNameFromDate(this->startDate.tm_year, this->startDate.tm_mon,
+                                                                        this->startDate.tm_mday, 1) + ".pnt";
     std::ifstream in = std::ifstream(firstFilePath, std::ios::binary | std::ios::in);
     if (!in.good()) {
         throw std::logic_error(firstFilePath + " file not found");
@@ -84,15 +84,25 @@ DataHeader TimeCoordinateHandler::getFirstFileDataHeader() {
 }
 
 void TimeCoordinateHandler::generateTimeCoordinates() {
+    // all time coordinates will be stored in utc - 1900
     DataHeader dataHeader = getFirstFileDataHeader();
     for (int ray = 1; ray <= 48; ray++) {
-        for (int sec = 0; sec <= 3600 * 24; sec += 10) {
-            tm exactTime = startDate;
-            int epochTime = tm_SubDefault(exactTime);
-            epochTime += sec;
-
-            TimeCoordinate timeCoordinate = TimeCoordinate(ray, exactTime);
+        tm exactTime = dataHeader.getBeginDatetime();
+        time_t exactTimeUTC = mktime(&exactTime);
+        for (int sec = 0; sec <= 3600 * 24; sec += this->step) {
+            tm *exactTimeUTC_new = localtime(&exactTimeUTC);
+            TimeCoordinate timeCoordinate = TimeCoordinate(ray, exactTimeUTC_new);
             timeCoordinate.setIsHead(true);
+            timeCoordinateSet.push_back(timeCoordinate);
+            exactTimeUTC += this->step;
+            std::cout << timeCoordinateSet[0].getUtcTime()->tm_year <<
+                      ":" << timeCoordinateSet[0].getUtcTime()->tm_mon <<
+                      ":" << timeCoordinateSet[0].getUtcTime()->tm_mday <<
+                      ":" << timeCoordinateSet[0].getUtcTime()->tm_hour <<
+                      ":" << timeCoordinateSet[0].getUtcTime()->tm_min <<
+                      ":" << timeCoordinateSet[0].getUtcTime()->tm_sec <<
+                      std::endl;
         }
     }
+    std::cout << timeCoordinateSet.size() << std::endl;
 }

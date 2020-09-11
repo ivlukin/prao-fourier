@@ -1,7 +1,7 @@
 {
-  "startDate": "2018-01-21",
-  "endDate": "2018-02-21",
-  "storage": "path/to/prao-files",
+  "startDate": "2014-10-01",
+  "endDate": "2014-11-01",
+  "storage": "/media/sorrow/Data/prao/north rays/",
   "range": "N1",
   "step": 10,
   "outputPath": "/path/to/output"

@@ -30,8 +30,8 @@ private:
     double fcentral{};
     double wb_total{};
     double tresolution{};
-    tm begin_datetime{};
-    tm end_datetime{};
+    tm begin_datetime{}; // UTC!!! -1900
+    tm end_datetime{}; // UTC!! - 1900
     double MJD_begin{};
     double MJD_end{};
     std::vector<int> modulus;
