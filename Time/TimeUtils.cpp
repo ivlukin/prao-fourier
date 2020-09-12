@@ -12,6 +12,22 @@ int tm_SubDefault(tm &time){
     return mktime(&time);
 }
 
+tm* tmDeepCopy(tm *self) {
+    tm* copy = new tm();
+    copy->tm_zone = self->tm_zone;
+    copy->tm_sec = self->tm_sec;
+    copy->tm_min = self->tm_min;
+    copy->tm_hour = self->tm_hour;
+    copy->tm_mday = self->tm_mday;
+    copy->tm_mon = self->tm_mon;
+    copy->tm_year = self->tm_year;
+    copy->tm_gmtoff = self->tm_gmtoff; // really need this?
+    copy->tm_isdst = self->tm_isdst;
+    copy->tm_wday = self->tm_wday;
+    copy->tm_yday = self->tm_yday;
+    return copy;
+}
+
 int tm_AddDefault(tm &time){
     if (time.tm_year < 200){
         time.tm_year += 1900;

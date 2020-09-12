@@ -90,18 +90,11 @@ void TimeCoordinateHandler::generateTimeCoordinates() {
         tm exactTime = dataHeader.getBeginDatetime();
         time_t exactTimeUTC = mktime(&exactTime);
         for (int sec = 0; sec <= 3600 * 24; sec += this->step) {
-            tm *exactTimeUTC_new = localtime(&exactTimeUTC);
+            struct tm *exactTimeUTC_new = localtime(&exactTimeUTC); // time here in UTC (omg i hate c++ way working with timezones)
             TimeCoordinate timeCoordinate = TimeCoordinate(ray, exactTimeUTC_new);
             timeCoordinate.setIsHead(true);
             timeCoordinateSet.push_back(timeCoordinate);
             exactTimeUTC += this->step;
-            std::cout << timeCoordinateSet[0].getUtcTime()->tm_year <<
-                      ":" << timeCoordinateSet[0].getUtcTime()->tm_mon <<
-                      ":" << timeCoordinateSet[0].getUtcTime()->tm_mday <<
-                      ":" << timeCoordinateSet[0].getUtcTime()->tm_hour <<
-                      ":" << timeCoordinateSet[0].getUtcTime()->tm_min <<
-                      ":" << timeCoordinateSet[0].getUtcTime()->tm_sec <<
-                      std::endl;
         }
     }
     std::cout << timeCoordinateSet.size() << std::endl;

@@ -8,6 +8,7 @@
 
 #include <string>
 #include <vector>
+#include "TimeUtils.h"
 
 class TimeCoordinate {
 private:
@@ -19,7 +20,10 @@ private:
     tm *UTC_time {}; // UTC - 1900!!!
     std::vector<TimeCoordinate> timeCoordinatesWithSameStarTime = std::vector<TimeCoordinate>();
 public:
-    TimeCoordinate(int ray, tm *UTC_time) : ray(ray), UTC_time(UTC_time) {}
+    TimeCoordinate(int ray, tm *UTC_time) : ray(ray) {
+        this->UTC_time = tmDeepCopy(UTC_time);
+        this->UTC_time->tm_zone = "UTC";
+    }
 
     TimeCoordinate() = default;
 

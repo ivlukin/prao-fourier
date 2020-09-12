@@ -24,6 +24,8 @@ double to_starTime(double sunSeconds);
 
 double to_SunTime(double starSeconds);
 
+tm* tmDeepCopy(tm* self);
+
 
 
 #endif //PRAO_CLASSIFIER_TIME_H
