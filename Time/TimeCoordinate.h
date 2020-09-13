@@ -14,15 +14,20 @@ class TimeCoordinate {
 private:
     int ray{};
     double starTime{};
-    double MJD{};
     double sunTime{};
     bool isHead{};
-    tm *UTC_time {}; // UTC - 1900!!!
-    std::vector<TimeCoordinate> timeCoordinatesWithSameStarTime = std::vector<TimeCoordinate>();
+    tm *beginDateTime{}; // UTC - 1900!!!
+    tm *endDateTime{};
+    std::vector<double> timeCoordinatesWithSameStarTime;
 public:
-    TimeCoordinate(int ray, tm *UTC_time) : ray(ray) {
-        this->UTC_time = tmDeepCopy(UTC_time);
-        this->UTC_time->tm_zone = "UTC";
+    TimeCoordinate(int ray, time_t beginSunTime, time_t endSunTime) : ray(ray) {
+        this->beginDateTime = localtime(&beginSunTime);
+        this->endDateTime = localtime(&endSunTime);
+        this->beginDateTime->tm_year += 1900;
+        this->beginDateTime->tm_mon += 1;
+        this->sunTime = mktime(this->beginDateTime);
+        // TODO добавить генерацию стартаймов
+        this->starTime = to_starTime(this->sunTime);
     }
 
     TimeCoordinate() = default;
@@ -44,13 +49,6 @@ public:
         TimeCoordinate::starTime = starTime;
     }
 
-    double getMjd() const {
-        return MJD;
-    }
-
-    void setMjd(double mjd) {
-        MJD = mjd;
-    }
 
     double getSunTime() const {
         return sunTime;
@@ -69,20 +67,12 @@ public:
     }
 
 
-    const std::vector<TimeCoordinate> &getTimeCoordinatesWithSameStarTime() const {
-        return timeCoordinatesWithSameStarTime;
-    }
-
-    void setTimeCoordinatesWithSameStarTime(const std::vector<TimeCoordinate> &timeCoordinatesWithSameStarTime) {
-        TimeCoordinate::timeCoordinatesWithSameStarTime = timeCoordinatesWithSameStarTime;
-    }
-
     tm *getUtcTime() const {
-        return UTC_time;
+        return beginDateTime;
     }
 
     void setUtcTime(tm *utcTime) {
-        UTC_time = utcTime;
+        beginDateTime = utcTime;
     }
 };
 

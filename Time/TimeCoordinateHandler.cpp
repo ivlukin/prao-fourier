@@ -84,14 +84,15 @@ DataHeader TimeCoordinateHandler::getFirstFileDataHeader() {
 }
 
 void TimeCoordinateHandler::generateTimeCoordinates() {
-    // all time coordinates will be stored in utc - 1900
+    // all time coordinates will be stored in utc
     DataHeader dataHeader = getFirstFileDataHeader();
     for (int ray = 1; ray <= 48; ray++) {
         tm exactTime = dataHeader.getBeginDatetime();
+        tm endDateTime = dataHeader.getEndDatetime();
         time_t exactTimeUTC = mktime(&exactTime);
+        time_t endDateTimeUTC = mktime(&endDateTime);
         for (int sec = 0; sec <= 3600 * 24; sec += this->step) {
-            struct tm *exactTimeUTC_new = localtime(&exactTimeUTC); // time here in UTC (omg i hate c++ way working with timezones)
-            TimeCoordinate timeCoordinate = TimeCoordinate(ray, exactTimeUTC_new);
+            TimeCoordinate timeCoordinate = TimeCoordinate(ray, exactTimeUTC, endDateTimeUTC);
             timeCoordinate.setIsHead(true);
             timeCoordinateSet.push_back(timeCoordinate);
             exactTimeUTC += this->step;
