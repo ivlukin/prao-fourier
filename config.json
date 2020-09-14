@@ -1,6 +1,6 @@
 {
-  "startDate": "2014-10-01",
-  "endDate": "2014-11-01",
+  "startDate": "2014-10-01 00:00:00",
+  "endDate": "2014-11-01 00:00:00",
   "storage": "/media/sorrow/Data/prao/north rays/",
   "range": "N1",
   "step": 10,

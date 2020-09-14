@@ -11,35 +11,18 @@ TimeCoordinateHandler::TimeCoordinateHandler(char *configFile) {
     this->fileStorage = config.getStoragePath();
     this->startDate = getDateTimeFromString(config.getStartDate());
     this->endDate = getDateTimeFromString(config.getEndDate());
+    // todo добавить к endDate еще один день (для полного захвата суток)
     this->step = config.getStep();
     this->range = config.getRange();
 }
 
-tm TimeCoordinateHandler::getDateTimeFromString(std::string dateTimeAsString) {
-    std::vector<std::string> parts = parseStringToDate(dateTimeAsString, "-");
-    int year, month, day;
-    std::stringstream(parts[0]) >> year;
-    std::stringstream(parts[1]) >> month;
-    std::stringstream(parts[2]) >> day;
-    tm dateTime{};
-    dateTime.tm_year = year;
-    dateTime.tm_mday = day;
-    dateTime.tm_mon = month;
-    return dateTime;
-}
-
-std::vector<std::string>
-TimeCoordinateHandler::parseStringToDate(std::string inputString, const std::string &delimiter) {
-    size_t pos = 0;
-    std::string token;
-    std::vector<std::string> out = std::vector<std::string>();
-    while ((pos = inputString.find(delimiter)) != std::string::npos) {
-        token = inputString.substr(0, pos);
-        out.push_back(token);
-        inputString.erase(0, pos + delimiter.length());
+std::tm TimeCoordinateHandler::getDateTimeFromString(std::string dateTimeAsString) {
+    std::tm dateTime = {};
+    std::istringstream ss(dateTimeAsString);
+    if (ss >> std::get_time(&dateTime, "%Y-%m-%d %H:%M:%S")) {
+        std::put_time(&dateTime, "%c");
     }
-    out.push_back(inputString);
-    return out;
+    return dateTime;
 }
 
 std::string TimeCoordinateHandler::getFileNameFromDate(int year, int month, int day, int hour) {
@@ -84,18 +67,14 @@ DataHeader TimeCoordinateHandler::getFirstFileDataHeader() {
 }
 
 void TimeCoordinateHandler::generateTimeCoordinates() {
-    // all time coordinates will be stored in utc
-    DataHeader dataHeader = getFirstFileDataHeader();
+    // all time coordinates will be stored epoch time (and timezone doesn't matter)
     for (int ray = 1; ray <= 48; ray++) {
-        tm exactTime = dataHeader.getBeginDatetime();
-        tm endDateTime = dataHeader.getEndDatetime();
-        time_t exactTimeUTC = mktime(&exactTime);
-        time_t endDateTimeUTC = mktime(&endDateTime);
+        time_t startDateTimeLocal = mktime(&this->startDate);
+        time_t endDateTimeLocal = mktime(&this->endDate);
         for (int sec = 0; sec <= 3600 * 24; sec += this->step) {
-            TimeCoordinate timeCoordinate = TimeCoordinate(ray, exactTimeUTC, endDateTimeUTC);
-            timeCoordinate.setIsHead(true);
+            TimeCoordinate timeCoordinate = TimeCoordinate(ray, startDateTimeLocal, endDateTimeLocal);
             timeCoordinateSet.push_back(timeCoordinate);
-            exactTimeUTC += this->step;
+            startDateTimeLocal += this->step;
         }
     }
     std::cout << timeCoordinateSet.size() << std::endl;
