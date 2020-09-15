@@ -24,6 +24,8 @@ public:
 
     TimeCoordinate() = default;
 
+    const std::vector<double> &getTimeCoordinatesWithSameStarTime() const;
+
 };
 
 

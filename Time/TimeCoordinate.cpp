@@ -21,3 +21,7 @@ TimeCoordinate::TimeCoordinate(int ray, time_t beginSunTime, time_t endSunTime) 
     // generate related sun times with step 1 star day
     generateSunTimes(beginSunTime, endSunTime);
 }
+
+const std::vector<double> &TimeCoordinate::getTimeCoordinatesWithSameStarTime() const {
+    return timeCoordinatesWithSameStarTime;
+}

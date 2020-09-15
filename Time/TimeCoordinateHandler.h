@@ -23,19 +23,24 @@ private:
     std::string fileStorage;
     std::string range;
     int step;
-    DataHeader firstFileDataHeader{};
     std::vector<TimeCoordinate> timeCoordinateSet;
 
 private:
     tm getDateTimeFromString(std::string dateTimeAsString);
-    std::vector<std::string> parseStringToDate(std::string inputString, const std::string& delimiter);
-    std::string getFileNameFromDate(int year, int month, int day, int hour);
-    DataHeader getFirstFileDataHeader();
+
+    std::vector<std::string> parseStringToDate(std::string inputString, const std::string &delimiter);
 
 
 public:
     explicit TimeCoordinateHandler(char *configFile);
+
     void generateTimeCoordinates();
+
+    const std::vector<TimeCoordinate> &getTimeCoordinateSet() const {
+        return timeCoordinateSet;
+    }
+
+    const std::string &getRange() const { return range; }
 };
 
 

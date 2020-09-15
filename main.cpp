@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "Time/TimeCoordinateHandler.h"
+#include "Data/FileHandler.h"
 
 int main(int argc, char **argv) {
     std::vector<std::string> args;
@@ -20,8 +21,9 @@ int main(int argc, char **argv) {
 
     TimeCoordinateHandler handler = TimeCoordinateHandler(args[2].data());
     handler.generateTimeCoordinates();
+    std::vector<double> justExample = handler.getTimeCoordinateSet()[0].getTimeCoordinatesWithSameStarTime();
+    FileHandler fileHandler = FileHandler(justExample, handler.getRange());
     std::cout << "end" << std::endl;
 
-    // TODO 3. Брать первый файл в качестве опорного. Сгенерить тайм-координаты согласно опорному файлу
     // TODO 5. Написать метод, вытаскивающий из файла нужный отрезок по звездному времени
 }
