@@ -6,10 +6,10 @@
 
 void TimeCoordinate::generateSunTimes(time_t beginSunTime, time_t endSunTime) {
     timeCoordinatesWithSameStarTime = std::vector<double>();
-    double currentStarTime = to_starTime(beginSunTime);
+    double currentStarTime = beginSunTime;
     for (time_t exactTime = beginSunTime; exactTime <= endSunTime; exactTime += 24 * 3600) {
         timeCoordinatesWithSameStarTime.push_back(currentStarTime);
-        currentStarTime += to_starTime(24 * 3600);
+        currentStarTime += to_SunTime(24 * 3600);
     }
 }
 
