@@ -1,23 +1,22 @@
 //
-// Created by sorrow on 13.05.19.
+// Created by Dolgushev on 04.02.2019.
 //
 
 #include "DataHeader.h"
 
+ifstream &operator>>(ifstream & in, DataHeader& dt){
 
-
-std::ifstream &operator>>(std::ifstream &in, DataHeader &dt) {
-    std::string tmp;
+    string tmp;
 
     in >> tmp >> dt.numpar;
     if (tmp != "numpar")
-        throw std::logic_error("numpar not found");
+        throw logic_error("numpar not found");
 
     in >> tmp >> dt.source >> tmp >> dt.alpha >> tmp >> dt.delta >> tmp >> dt.fcentral >> tmp >> dt.wb_total;
 
 
     tm tm_local = {};
-    std::string datetime_local, datetime_UTC;
+    string datetime_local, datetime_UTC;
     in >> tmp >> datetime_local >> tmp >> datetime_UTC;
     sscanf(datetime_local.c_str(), "%d.%d.%d", &tm_local.tm_mday, &tm_local.tm_mon, &tm_local.tm_year);
     sscanf(datetime_UTC.c_str(), "%d.%d.%d", &dt.begin_datetime.tm_mday, &dt.begin_datetime.tm_mon, &dt.begin_datetime.tm_year);
@@ -40,8 +39,8 @@ std::ifstream &operator>>(std::ifstream &in, DataHeader &dt) {
 
     in >> tmp;
     getline(in, tmp, '\n');
-    std::stringstream stream(tmp);
-    while (!stream.eof()) {
+    stringstream stream(tmp);
+    while (!stream.eof()){
         int curr;
         stream >> curr;
         dt.modulus.push_back(curr);
@@ -52,7 +51,7 @@ std::ifstream &operator>>(std::ifstream &in, DataHeader &dt) {
 
     in >> tmp;
     getline(in, tmp, '\n');
-    stream = std::stringstream(tmp);
+    stream = stringstream(tmp);
     while (!stream.eof()){
         float curr;
         stream >> curr;
@@ -61,13 +60,12 @@ std::ifstream &operator>>(std::ifstream &in, DataHeader &dt) {
 
     in >> tmp;
     getline(in, tmp, '\n');
-    stream = std::stringstream(tmp);
+    stream = stringstream(tmp);
     while (!stream.eof()){
         float curr;
         stream >> curr;
         dt.fbands.push_back(curr);
     }
+
     return in;
-
-
 }
