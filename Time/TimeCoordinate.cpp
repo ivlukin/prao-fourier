@@ -13,9 +13,7 @@ void TimeCoordinate::generateSunTimes(time_t beginSunTime, time_t endSunTime) {
     }
 }
 
-TimeCoordinate::TimeCoordinate(int ray, time_t beginSunTime, time_t endSunTime) {
-    this->ray = ray;
-
+TimeCoordinate::TimeCoordinate(time_t beginSunTime, time_t endSunTime) {
     this->beginDateTime = beginSunTime;
     this->endDateTime = endSunTime;
     // generate related sun times with step 1 star day

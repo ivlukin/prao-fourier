@@ -12,7 +12,6 @@
 
 class TimeCoordinate {
 private:
-    int ray{};
     time_t beginDateTime;
     time_t endDateTime;
     std::vector<double> timeCoordinatesWithSameStarTime;
@@ -20,7 +19,7 @@ private:
 private:
    void generateSunTimes(time_t beginSunTime, time_t endSunTime);
 public:
-    TimeCoordinate(int ray, time_t beginSunTime, time_t endSunTime);
+    TimeCoordinate(time_t beginSunTime, time_t endSunTime);
 
     TimeCoordinate() = default;
 
