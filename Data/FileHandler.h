@@ -14,16 +14,18 @@
 #include <string>
 #include <iomanip>
 #include <utility>
+#include <iostream>
 
 class FileHandler {
 private:
     std::vector<std::tm*> timeCoordinates;
     std::string getFileNameFromDate(int year, int month, int day, int hour);
     std::string range;
+    std::string mode;
 public:
     FileHandler() = default;
 
-    FileHandler(std::vector<double> timeCoordinates, std::string range);
+    FileHandler(const std::vector<double>& timeCoordinates, std::string range, std::string mode);
 
 private:
 

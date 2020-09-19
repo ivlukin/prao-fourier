@@ -20,6 +20,7 @@ Config::Config(char *fileName) {
     assert(d.HasMember("range")); // north or south
     assert(d.HasMember("step")); // scan step (in seconds)
     assert(d.HasMember("outputPath")); // directory for storing results
+    assert(d.HasMember("mode")); // directory for storing results
 
     this->startDate= d["startDate"].GetString();
     this->outputPath = d["outputPath"].GetString();
@@ -27,6 +28,7 @@ Config::Config(char *fileName) {
     this->storagePath = d["storage"].GetString();
     this->range = d["range"].GetString();
     this->step = d["step"].GetInt();
+    this->mode = d["mode"].GetString();
 }
 
 const std::string &Config::getStartDate() const {
@@ -51,4 +53,8 @@ int Config::getStep() const {
 
 const std::string &Config::getOutputPath() const {
     return outputPath;
+}
+
+const std::string &Config::getMode() const {
+    return mode;
 }

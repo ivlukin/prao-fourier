@@ -4,17 +4,23 @@
 
 
 
-#include <iostream>
+
 #include "FileHandler.h"
 
-FileHandler::FileHandler(std::vector<double> timeCoordinates, std::string range): range(std::move(range)) {
-    this->timeCoordinates = std::vector<std::tm*>();
+#include <utility>
+
+FileHandler::FileHandler(const std::vector<double> &timeCoordinates, std::string range, std::string mode) :
+        range(std::move(range)), mode(std::move(mode)) {
+    this->timeCoordinates = std::vector<std::tm *>();
     for (double starTime: timeCoordinates) {
         time_t sunTimeAsInt = std::floor(starTime);
-        tm* starTimeStruct = gmtime(&sunTimeAsInt);
+        tm *starTimeStruct = gmtime(&sunTimeAsInt);
+        if (starTimeStruct->tm_year < 200) {
+            starTimeStruct->tm_year += 1900;
+            starTimeStruct->tm_mon += 1;
+        }
         this->timeCoordinates.push_back(tmDeepCopy(starTimeStruct));
     }
-    std::cout << this->timeCoordinates.size() << std::endl;
 }
 
 std::string FileHandler::getFileNameFromDate(int year, int month, int day, int hour) {
@@ -38,7 +44,7 @@ std::string FileHandler::getFileNameFromDate(int year, int month, int day, int h
     s = ss.str();
     path += s;
 
-    path += "_" + range + "_00";
+    path += "_" + range + "_00" + mode;
 
     return path;
 }

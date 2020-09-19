@@ -20,27 +20,20 @@ class TimeCoordinateHandler {
 private:
     tm startDate{};
     tm endDate{};
-    std::string fileStorage;
-    std::string range;
     int step;
     std::vector<TimeCoordinate> timeCoordinateSet;
 
 private:
-    tm getDateTimeFromString(std::string dateTimeAsString);
-
-    std::vector<std::string> parseStringToDate(std::string inputString, const std::string &delimiter);
-
+    tm getDateTimeFromString(const std::string& dateTimeAsString);
 
 public:
-    explicit TimeCoordinateHandler(char *configFile);
+    explicit TimeCoordinateHandler(const Config& config);
 
     void generateTimeCoordinates();
 
     const std::vector<TimeCoordinate> &getTimeCoordinateSet() const {
         return timeCoordinateSet;
     }
-
-    const std::string &getRange() const { return range; }
 };
 
 

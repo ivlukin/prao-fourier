@@ -6,16 +6,13 @@
 #include "TimeCoordinateHandler.h"
 
 
-TimeCoordinateHandler::TimeCoordinateHandler(char *configFile) {
-    Config config = Config(configFile);
-    this->fileStorage = config.getStoragePath();
+TimeCoordinateHandler::TimeCoordinateHandler(const Config& config) {
     this->startDate = getDateTimeFromString(config.getStartDate());
     this->endDate = getDateTimeFromString(config.getEndDate());
     this->step = config.getStep();
-    this->range = config.getRange();
 }
 
-std::tm TimeCoordinateHandler::getDateTimeFromString(std::string dateTimeAsString) {
+std::tm TimeCoordinateHandler::getDateTimeFromString(const std::string& dateTimeAsString) {
     std::tm dateTime = {};
     std::istringstream ss(dateTimeAsString);
     if (ss >> std::get_time(&dateTime, "%Y-%m-%d %H:%M:%S")) {

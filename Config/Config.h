@@ -23,6 +23,7 @@ private:
     std::string range;
     int step;
     std::string outputPath;
+    std::string mode;
 public:
     const std::string &getStartDate() const;
 
@@ -35,6 +36,8 @@ public:
     int getStep() const;
 
     const std::string &getOutputPath() const;
+
+    const std::string &getMode() const;
 };
 
 

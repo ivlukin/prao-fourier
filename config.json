@@ -4,5 +4,6 @@
   "storage": "/media/sorrow/Data/prao/north rays/",
   "range": "N1",
   "step": 10,
-  "outputPath": "/path/to/output"
+  "outputPath": "/path/to/output",
+  "mode": ".pnt"
 }

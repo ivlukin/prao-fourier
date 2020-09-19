@@ -19,10 +19,11 @@ int main(int argc, char **argv) {
         exit(-1);
     }
 
-    TimeCoordinateHandler handler = TimeCoordinateHandler(args[2].data());
+    Config config = Config(args[2].data());
+    TimeCoordinateHandler handler = TimeCoordinateHandler(config);
     handler.generateTimeCoordinates();
     std::vector<double> justExample = handler.getTimeCoordinateSet()[0].getTimeCoordinatesWithSameStarTime();
-    FileHandler fileHandler = FileHandler(justExample, handler.getRange());
+    FileHandler fileHandler = FileHandler(justExample, config.getRange(), config.getMode());
     std::cout << "end" << std::endl;
 
     // TODO 5. Написать метод, вытаскивающий из файла нужный отрезок по звездному времени
