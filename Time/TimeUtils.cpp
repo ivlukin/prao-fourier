@@ -55,9 +55,10 @@ double to_MJD(tm &time) {
 }
 
 double to_starTime(double sunSeconds) {
-    return sunSeconds * 1.0027379093507936701425169545368;
+    return sunSeconds / 1.0027379093507936701425169545368;
 }
 
 double to_SunTime(double starSeconds) {
-    return starSeconds / 1.0027379093507936701425169545368;
+
+    return starSeconds * 1.0027379093507936701425169545368;
 }
