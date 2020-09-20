@@ -57,7 +57,7 @@ public:
     int time_copying = 0;
 
     /// \param filepath path to file from which read
-    /// \param starSeconds_timeChunk_dur duration in star seconds of how many points will be read by call to readNextPoints
+    /// \param starSeconds_timeChunk_dur durationStarSeconds in star seconds of how many points will be read by call to readNextPoints
     explicit DataReader(string filepath, double starSeconds_timeChunk_dur);
     ~DataReader();
 

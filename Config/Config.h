@@ -26,6 +26,7 @@ private:
     std::string mode;
     std::string fileListPath;
     std::string calibrationListPath;
+    double durationStarSeconds;
 public:
     const std::string &getStartDate() const;
 
@@ -44,6 +45,8 @@ public:
     const std::string &getFileListPath() const;
 
     const std::string &getCalibrationListPath() const;
+
+    double getDurationStarSeconds() const;
 };
 
 

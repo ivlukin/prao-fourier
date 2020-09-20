@@ -12,18 +12,7 @@ FileHandler::FileHandler(const std::vector<double> &timeCoordinates, const Confi
     this->mode = config.getMode();
     this->range = config.getRange();
     this->fileListPath = config.getFileListPath();
-    this->timeCoordinates = std::vector<std::tm *>();
-    for (double starTime: timeCoordinates) {
-        time_t sunTimeAsInt = std::floor(starTime);
-        tm *starTimeStruct = localtime(&sunTimeAsInt);
-        if (starTimeStruct->tm_year < 200) {
-            starTimeStruct->tm_year += 1900;
-            starTimeStruct->tm_mon += 1;
-        }
-        this->timeCoordinates.push_back(tmDeepCopy(starTimeStruct));
-    }
-    getFilesItemsList();
-//    std::cout << this->timeCoordinates.size() << std::endl;
+    this->timeCoordinatesEpoch = timeCoordinates;
 }
 
 std::string FileHandler::getFileNameFromDate(int year, int month, int day, int hour) {
@@ -52,7 +41,7 @@ std::string FileHandler::getFileNameFromDate(int year, int month, int day, int h
     return path;
 }
 
-void FileHandler::getFilesItemsList() {
+void FileHandler::processFilesItemsList() {
     fileItems = std::vector<FilesListItem>();
     std::vector<std::string> fileNameList = std::vector<std::string>();
     for (tm* time: this->timeCoordinates)
@@ -68,4 +57,22 @@ void FileHandler::getFilesItemsList() {
         }
     }
     in.close();
+}
+
+void FileHandler::calculateRelatedFiles() {
+    this->timeCoordinates = std::vector<std::tm *>();
+    for (double starTime: this->timeCoordinatesEpoch) {
+        time_t sunTimeAsInt = std::floor(starTime);
+        tm *starTimeStruct = localtime(&sunTimeAsInt);
+        if (starTimeStruct->tm_year < 200) {
+            starTimeStruct->tm_year += 1900;
+            starTimeStruct->tm_mon += 1;
+        }
+        this->timeCoordinates.push_back(tmDeepCopy(starTimeStruct));
+    }
+    processFilesItemsList();
+}
+
+const vector<FilesListItem> &FileHandler::getFileItems() const {
+    return fileItems;
 }

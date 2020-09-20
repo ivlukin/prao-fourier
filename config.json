@@ -7,5 +7,6 @@
   "outputPath": "/path/to/output",
   "mode": ".pnt",
   "fileListPath": "/home/sorrow/CLionProjects/prao-compresser/resources/filesListSmall.txt",
-  "calibrationListPath": "/home/sorrow/CLionProjects/prao-compresser/resources/smallCalibrationFull.txt"
+  "calibrationListPath": "/home/sorrow/CLionProjects/prao-compresser/resources/smallCalibrationFull.txt",
+  "durationStarSeconds": 204.8
 }

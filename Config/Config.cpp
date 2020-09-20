@@ -23,6 +23,7 @@ Config::Config(char *fileName) {
     assert(d.HasMember("mode")); // mode (fast or standard)
     assert(d.HasMember("fileListPath")); // path to .txt file with files
     assert(d.HasMember("calibrationListPath")); // path to .txt file with calibration data
+    assert(d.HasMember("durationStarSeconds")); // duration of batch in star seconds
 
     this->startDate= d["startDate"].GetString();
     this->outputPath = d["outputPath"].GetString();
@@ -33,6 +34,7 @@ Config::Config(char *fileName) {
     this->mode = d["mode"].GetString();
     this->fileListPath = d["fileListPath"].GetString();
     this->calibrationListPath = d["calibrationListPath"].GetString();
+    this->durationStarSeconds = d["durationStarSeconds"].GetDouble();
 }
 
 const std::string &Config::getStartDate() const {
@@ -69,4 +71,8 @@ const std::string &Config::getFileListPath() const {
 
 const std::string &Config::getCalibrationListPath() const {
     return calibrationListPath;
+}
+
+double Config::getDurationStarSeconds() const {
+    return durationStarSeconds;
 }

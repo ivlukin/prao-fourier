@@ -25,14 +25,19 @@ private:
     std::string mode;
     std::string fileListPath;
     std::vector<FilesListItem> fileItems;
+    std::vector<double> timeCoordinatesEpoch;
 private:
     std::string getFileNameFromDate(int year, int month, int day, int hour);
-    void getFilesItemsList();
+    void processFilesItemsList();
+
 
 public:
     FileHandler() = default;
-
+    void calculateRelatedFiles();
     FileHandler(const std::vector<double>& timeCoordinates, const Config& config);
+
+    const vector<FilesListItem> &getFileItems() const;
+
 
 private:
 

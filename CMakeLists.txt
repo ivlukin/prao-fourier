@@ -18,4 +18,4 @@ add_executable(prao_fourier main.cpp
         Calibration/CalibrationDataInput.cpp Calibration/CalibrationDataInput.h
         Calibration/CalibrationDataStorage.cpp Calibration/CalibrationDataStorage.h
         Point/Point.h
-        )
+        FourierHandler/FourierHandler.cpp FourierHandler/FourierHandler.h)
