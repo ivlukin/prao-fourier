@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
     TimeCoordinateHandler handler = TimeCoordinateHandler(config);
     handler.generateTimeCoordinates();
     std::vector<double> justExample = handler.getTimeCoordinateSet()[0].getTimeCoordinatesWithSameStarTime();
-    FileHandler fileHandler = FileHandler(justExample, config.getRange(), config.getMode());
+    FileHandler fileHandler = FileHandler(justExample, config);
     std::cout << "end" << std::endl;
 
     // TODO 5. Написать метод, вытаскивающий из файла нужный отрезок по звездному времени

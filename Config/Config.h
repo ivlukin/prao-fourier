@@ -24,6 +24,8 @@ private:
     int step;
     std::string outputPath;
     std::string mode;
+    std::string fileListPath;
+    std::string calibrationListPath;
 public:
     const std::string &getStartDate() const;
 
@@ -38,6 +40,10 @@ public:
     const std::string &getOutputPath() const;
 
     const std::string &getMode() const;
+
+    const std::string &getFileListPath() const;
+
+    const std::string &getCalibrationListPath() const;
 };
 
 

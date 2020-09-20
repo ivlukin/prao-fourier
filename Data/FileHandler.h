@@ -10,6 +10,8 @@
 #include <vector>
 #include <ctime>
 #include "../Time/TimeUtils.h"
+#include "../Config/Config.h"
+#include "../Reader/FilesListItem.h"
 #include <cmath>
 #include <string>
 #include <iomanip>
@@ -19,13 +21,18 @@
 class FileHandler {
 private:
     std::vector<std::tm*> timeCoordinates;
-    std::string getFileNameFromDate(int year, int month, int day, int hour);
     std::string range;
     std::string mode;
+    std::string fileListPath;
+    std::vector<FilesListItem> fileItems;
+private:
+    std::string getFileNameFromDate(int year, int month, int day, int hour);
+    void getFilesItemsList();
+
 public:
     FileHandler() = default;
 
-    FileHandler(const std::vector<double>& timeCoordinates, std::string range, std::string mode);
+    FileHandler(const std::vector<double>& timeCoordinates, const Config& config);
 
 private:
 

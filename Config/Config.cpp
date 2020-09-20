@@ -20,7 +20,9 @@ Config::Config(char *fileName) {
     assert(d.HasMember("range")); // north or south
     assert(d.HasMember("step")); // scan step (in seconds)
     assert(d.HasMember("outputPath")); // directory for storing results
-    assert(d.HasMember("mode")); // directory for storing results
+    assert(d.HasMember("mode")); // mode (fast or standard)
+    assert(d.HasMember("fileListPath")); // path to .txt file with files
+    assert(d.HasMember("calibrationListPath")); // path to .txt file with calibration data
 
     this->startDate= d["startDate"].GetString();
     this->outputPath = d["outputPath"].GetString();
@@ -29,6 +31,8 @@ Config::Config(char *fileName) {
     this->range = d["range"].GetString();
     this->step = d["step"].GetInt();
     this->mode = d["mode"].GetString();
+    this->fileListPath = d["fileListPath"].GetString();
+    this->calibrationListPath = d["calibrationListPath"].GetString();
 }
 
 const std::string &Config::getStartDate() const {
@@ -57,4 +61,12 @@ const std::string &Config::getOutputPath() const {
 
 const std::string &Config::getMode() const {
     return mode;
+}
+
+const std::string &Config::getFileListPath() const {
+    return fileListPath;
+}
+
+const std::string &Config::getCalibrationListPath() const {
+    return calibrationListPath;
 }

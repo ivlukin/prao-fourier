@@ -5,5 +5,7 @@
   "range": "N1",
   "step": 10,
   "outputPath": "/path/to/output",
-  "mode": ".pnt"
+  "mode": ".pnt",
+  "fileListPath": "/home/sorrow/CLionProjects/prao-compresser/resources/filesListSmall.txt",
+  "calibrationListPath": "/home/sorrow/CLionProjects/prao-compresser/resources/smallCalibrationFull.txt"
 }

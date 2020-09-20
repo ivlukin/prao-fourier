@@ -7,20 +7,23 @@
 
 #include "FileHandler.h"
 
-#include <utility>
 
-FileHandler::FileHandler(const std::vector<double> &timeCoordinates, std::string range, std::string mode) :
-        range(std::move(range)), mode(std::move(mode)) {
+FileHandler::FileHandler(const std::vector<double> &timeCoordinates, const Config &config) {
+    this->mode = config.getMode();
+    this->range = config.getRange();
+    this->fileListPath = config.getFileListPath();
     this->timeCoordinates = std::vector<std::tm *>();
     for (double starTime: timeCoordinates) {
         time_t sunTimeAsInt = std::floor(starTime);
-        tm *starTimeStruct = gmtime(&sunTimeAsInt);
+        tm *starTimeStruct = localtime(&sunTimeAsInt);
         if (starTimeStruct->tm_year < 200) {
             starTimeStruct->tm_year += 1900;
             starTimeStruct->tm_mon += 1;
         }
         this->timeCoordinates.push_back(tmDeepCopy(starTimeStruct));
     }
+    getFilesItemsList();
+//    std::cout << this->timeCoordinates.size() << std::endl;
 }
 
 std::string FileHandler::getFileNameFromDate(int year, int month, int day, int hour) {
@@ -47,4 +50,22 @@ std::string FileHandler::getFileNameFromDate(int year, int month, int day, int h
     path += "_" + range + "_00" + mode;
 
     return path;
+}
+
+void FileHandler::getFilesItemsList() {
+    fileItems = std::vector<FilesListItem>();
+    std::vector<std::string> fileNameList = std::vector<std::string>();
+    for (tm* time: this->timeCoordinates)
+        fileNameList.push_back(getFileNameFromDate(time->tm_year, time->tm_mon, time->tm_mday, time->tm_hour));
+    ifstream in(fileListPath);
+    if (!in.good())
+        throw std::logic_error(fileListPath + " not found!");
+    while (!in.eof()) {
+        FilesListItem item;
+        in >> item;
+        if (std::find(fileNameList.begin(), fileNameList.end(), item.filename) != fileNameList.end()) {
+            this->fileItems.push_back(item);
+        }
+    }
+    in.close();
 }
