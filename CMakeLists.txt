@@ -19,5 +19,8 @@ add_executable(prao_fourier main.cpp
         Calibration/CalibrationDataStorage.cpp Calibration/CalibrationDataStorage.h
         Point/Point.h
         FourierHandler/FourierHandler.cpp FourierHandler/FourierHandler.h
-        Context/OpenCLContext.h Context/OpenCLContext.cpp)
+        Context/OpenCLContext.h Context/OpenCLContext.cpp
+        FourierHandler/FourierTransformer.cpp FourierHandler/FourierHandler.h
+        FourierHandler/Processor.cpp FourierHandler/Processor.h
+        Reader/DataSeeker.h Reader/DataSeeker.cpp)
 target_link_libraries(prao_fourier OpenCL::OpenCL clFFT)

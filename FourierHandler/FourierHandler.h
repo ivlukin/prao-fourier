@@ -12,6 +12,9 @@
 #include "../Config/Config.h"
 #include "../Reader/DataSeeker.h"
 #include "../Time/TimeCoordinate.h"
+#include "../Context/OpenCLContext.h"
+#include "FourierTransformer.h"
+
 
 class FourierHandler {
 private:
@@ -19,6 +22,7 @@ private:
     int starSeconds;
     double duration;
     std::map<FilesListItem, std::vector<tm*>> fileItemToTimestampsMap;
+    OpenCLContext context;
 
 
 private:
@@ -26,11 +30,12 @@ private:
 public:
     FourierHandler() = default;
 
-    FourierHandler(const Config& config, std::map<FilesListItem, std::vector<tm*>> fileItemToTimestampsMap) {
+    FourierHandler(const Config& config, std::map<FilesListItem, std::vector<tm*>> fileItemToTimestampsMap, OpenCLContext context) {
         this->calibrationListPath = config.getCalibrationListPath();
         this->starSeconds = config.getStep();
         this->duration = config.getDurationStarSeconds();
         this->fileItemToTimestampsMap = std::move(fileItemToTimestampsMap);
+        this->context = context;
     }
     int run();
 };

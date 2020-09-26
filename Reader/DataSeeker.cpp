@@ -7,12 +7,12 @@
 std::vector<float> DataSeeker::seek(int ray, int band, int point, int numPoints) {
     std::ifstream filestream(filename, std::ios::in | std::ios::binary);
     std::vector<float> read_data = std::vector<float>();
-    int currentTime = point * 10; //TODO calc compress resolution
-    long long elapsedPoints = (int) (currentTime / dataHeader.getTresolution());
+    int currentTime = point * 10;
+    long long elapsedPoints = (int) (currentTime / dataHeader.tresolution);
     long caret =
-            (long) (dataHeader.getNrays() * dataHeader.getNbands() * sizeof(float) * elapsedPoints)
+            (long) (dataHeader.nrays * dataHeader.nbands * sizeof(float) * elapsedPoints)
             + this->header_length +
-            (long) (ray * dataHeader.getNbands() * sizeof(float)) + band * sizeof(float);
+            (long) (ray * dataHeader.nbands * sizeof(float)) + band * sizeof(float);
 
     filestream.seekg(caret, std::ifstream::beg);
     char *buffer = new char[sizeof(float)];
@@ -21,7 +21,7 @@ std::vector<float> DataSeeker::seek(int ray, int band, int point, int numPoints)
         filestream.read(buffer, sizeof(float));
         float signal = ((float *) buffer)[0];
         read_data.push_back(signal);
-        filestream.seekg(dataHeader.getNrays() * dataHeader.getNbands() * sizeof(float), std::ifstream::cur);
+        filestream.seekg(dataHeader.nrays * dataHeader.nrays * sizeof(float), std::ifstream::cur);
     }
     count_point_position = filestream.tellg();
     delete[] buffer;
@@ -34,7 +34,7 @@ std::vector<float> DataSeeker::seek(int ray, int band, int point, int numPoints)
 
 void DataSeeker::updateCalibrationData() {
 
-    double currentPointMJD = dataHeader.getMjdBegin() + (count_point_position * dataHeader.getTresolution()) / 86400;
+    double currentPointMJD = dataHeader.MJD_begin + (count_point_position * dataHeader.tresolution) / 86400;
     CalibrationData *left = calibrationData->getCalibrationData_left_by_time(currentPointMJD);
     CalibrationData *right = calibrationData->getCalibrationData_right_by_time(currentPointMJD);
 
@@ -44,8 +44,8 @@ void DataSeeker::updateCalibrationData() {
     realloc(zr_step, right->get_zero_level());
 
     int i = floats_per_point;
-    int n = ((right->get_MJD() - left->get_MJD()) * 24 * 60 * 60 + dataHeader.getTresolution() - 0.000000001) /
-            dataHeader.getTresolution();
+    int n = ((right->get_MJD() - left->get_MJD()) * 24 * 60 * 60 + dataHeader.tresolution - 0.000000001) /
+            dataHeader.tresolution;
     while (--i >= 0) {
         on_k_step[i] = (on_k_step[i] - calibration_on_k[i]) / n;
         zr_step[i] = (zr_step[i] - calibration_zr[i]) / n;

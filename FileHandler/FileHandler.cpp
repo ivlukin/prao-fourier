@@ -5,6 +5,7 @@
 
 
 
+
 #include "FileHandler.h"
 
 
@@ -56,7 +57,7 @@ void FileHandler::processFilesItemsList() {
         fileNameToTimestampsList[fileNameFromDate].push_back(time);
     }
     // затем найдем соответствующие файл-айтемы (они все должны быть!)
-    ifstream in(fileListPath);
+    ifstream in(this->fileListPath);
     if (!in.good())
         throw std::logic_error(fileListPath + " not found!");
     while (!in.eof()) {
