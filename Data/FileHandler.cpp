@@ -42,10 +42,20 @@ std::string FileHandler::getFileNameFromDate(int year, int month, int day, int h
 }
 
 void FileHandler::processFilesItemsList() {
-    fileItems = std::vector<FilesListItem>();
+    std::vector<FilesListItem> fileItems = std::vector<FilesListItem>();
     std::vector<std::string> fileNameList = std::vector<std::string>();
-    for (tm* time: this->timeCoordinates)
-        fileNameList.push_back(getFileNameFromDate(time->tm_year, time->tm_mon, time->tm_mday, time->tm_hour));
+    // сначала сгруппируем таймштампы по принципу имя_файла -> соответствующие таймштампы
+    std::map<std::string, std::vector<tm*>> fileNameToTimestampsList = std::map<std::string, std::vector<tm*>>();
+    for (tm *time: this->timeCoordinates) {
+        std::string fileNameFromDate = getFileNameFromDate(time->tm_year, time->tm_mon, time->tm_mday, time->tm_hour);
+        fileNameList.push_back(fileNameFromDate);
+        if (fileNameToTimestampsList.find(fileNameFromDate) == fileNameToTimestampsList.end()) {
+            fileNameToTimestampsList.insert(std::pair<std::string,
+                                            std::vector<tm*>>(fileNameFromDate, std::vector<tm*>()));
+        }
+        fileNameToTimestampsList[fileNameFromDate].push_back(time);
+    }
+    // затем найдем соответствующие файл-айтемы (они все должны быть!)
     ifstream in(fileListPath);
     if (!in.good())
         throw std::logic_error(fileListPath + " not found!");
@@ -53,10 +63,17 @@ void FileHandler::processFilesItemsList() {
         FilesListItem item;
         in >> item;
         if (std::find(fileNameList.begin(), fileNameList.end(), item.filename) != fileNameList.end()) {
-            this->fileItems.push_back(item);
+            fileItems.push_back(item);
         }
     }
     in.close();
+
+    // затем просто смапим соответствующие файлайтемы на таймштмпы
+    fileItemToTimestampsMap = std::map<FilesListItem, std::vector<tm *>>();
+    for (const FilesListItem& item: fileItems) {
+        fileItemToTimestampsMap.insert(std::pair<FilesListItem,
+                                       std::vector<tm *>>(item, fileNameToTimestampsList[item.filename]));
+    }
 }
 
 void FileHandler::calculateRelatedFiles() {
@@ -73,6 +90,7 @@ void FileHandler::calculateRelatedFiles() {
     processFilesItemsList();
 }
 
-const vector<FilesListItem> &FileHandler::getFileItems() const {
-    return fileItems;
+const map<FilesListItem, std::vector<tm *>> &FileHandler::getFileNameToTimestampsMap() const {
+    return fileItemToTimestampsMap;
 }
+

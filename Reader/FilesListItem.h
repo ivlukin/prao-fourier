@@ -25,6 +25,11 @@ struct FilesListItem{
     DataReader* getDataReader(double starSeconds_timeChunk_dur);
 
     friend istream &operator>>(istream & in, FilesListItem& dt);
+
+    bool operator < (const FilesListItem& other) const {
+        return filename < other.filename;
+    }
 };
+
 
 #endif //PRAO_COMPRESSER_FILESLISTITEM_H

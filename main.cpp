@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
     std::vector<double> justExample = handler.getTimeCoordinateSet()[0].getTimeCoordinatesWithSameStarTime();
     FileHandler fileHandler = FileHandler(justExample, config);
     fileHandler.calculateRelatedFiles();
-    FourierHandler fourierHandler = FourierHandler(fileHandler.getFileItems(), config);
+    FourierHandler fourierHandler = FourierHandler(config, fileHandler.getFileNameToTimestampsMap());
     fourierHandler.run();
     std::cout << "end" << std::endl;
 

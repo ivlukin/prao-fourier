@@ -10,24 +10,27 @@
 #include <vector>
 #include "../Reader/FilesListItem.h"
 #include "../Config/Config.h"
+#include "../Reader/DataSeeker.h"
+#include "../Time/TimeCoordinate.h"
 
 class FourierHandler {
 private:
-    std::vector<FilesListItem> filesListItem;
     std::string calibrationListPath;
     int starSeconds;
     double duration;
+    std::map<FilesListItem, std::vector<tm*>> fileItemToTimestampsMap;
+
 
 private:
     CalibrationDataStorage *readCalibrationDataStorage(std::string path_calibration);
 public:
     FourierHandler() = default;
 
-    FourierHandler(std::vector<FilesListItem> filesListItem, const Config& config) {
+    FourierHandler(const Config& config, std::map<FilesListItem, std::vector<tm*>> fileItemToTimestampsMap) {
         this->calibrationListPath = config.getCalibrationListPath();
-        this->filesListItem = std::move(filesListItem);
         this->starSeconds = config.getStep();
         this->duration = config.getDurationStarSeconds();
+        this->fileItemToTimestampsMap = std::move(fileItemToTimestampsMap);
     }
     int run();
 };

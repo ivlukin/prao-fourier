@@ -20,23 +20,27 @@
 
 class FileHandler {
 private:
-    std::vector<std::tm*> timeCoordinates;
+    std::vector<std::tm *> timeCoordinates;
+
     std::string range;
     std::string mode;
     std::string fileListPath;
-    std::vector<FilesListItem> fileItems;
     std::vector<double> timeCoordinatesEpoch;
+
+    std::map<FilesListItem, std::vector<tm*>> fileItemToTimestampsMap;
 private:
     std::string getFileNameFromDate(int year, int month, int day, int hour);
-    void processFilesItemsList();
 
+    void processFilesItemsList();
 
 public:
     FileHandler() = default;
-    void calculateRelatedFiles();
-    FileHandler(const std::vector<double>& timeCoordinates, const Config& config);
 
-    const vector<FilesListItem> &getFileItems() const;
+    FileHandler(const std::vector<double> &timeCoordinates, const Config &config);
+
+    const map<FilesListItem, std::vector<tm *>> &getFileNameToTimestampsMap() const;
+
+    void calculateRelatedFiles();
 
 
 private:
