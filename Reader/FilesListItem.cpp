@@ -4,11 +4,7 @@
 
 #include "FilesListItem.h"
 
-DataReader* FilesListItem::getDataReader(double starSeconds_timeChunk_dur){
-    if (reader == nullptr)
-        reader = new DataReader(filepath, starSeconds_timeChunk_dur);
-    return reader;
-}
+
 
 istream &operator>>(istream & in, FilesListItem& dt){
     string tmp;
