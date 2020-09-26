@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "Time/TimeCoordinateHandler.h"
-#include "Data/FileHandler.h"
+#include "FileHandler//FileHandler.h"
 #include "FourierHandler/FourierHandler.h"
 
 int main(int argc, char **argv) {
@@ -22,13 +22,16 @@ int main(int argc, char **argv) {
 
     Config config = Config(args[2].data());
     TimeCoordinateHandler handler = TimeCoordinateHandler(config);
+    OpenCLContext context = OpenCLContext();
+    context.initContext();
     handler.generateTimeCoordinates();
     std::vector<double> justExample = handler.getTimeCoordinateSet()[0].getTimeCoordinatesWithSameStarTime();
     FileHandler fileHandler = FileHandler(justExample, config);
     fileHandler.calculateRelatedFiles();
-    FourierHandler fourierHandler = FourierHandler(config, fileHandler.getFileNameToTimestampsMap());
+    FourierHandler fourierHandler = FourierHandler(config, fileHandler.getFileNameToTimestampsMap(), context);
     fourierHandler.run();
-    std::cout << "end" << std::endl;
 
-    // TODO 5. Написать метод, вытаскивающий из файла нужный отрезок по звездному времени
+    clReleaseCommandQueue(context.getClCommandQueue());
+    clReleaseContext(context.getContext());
+    std::cout << "Finish!" << std::endl;
 }
