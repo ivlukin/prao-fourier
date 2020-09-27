@@ -7,13 +7,12 @@
 
 
 int FourierHandler::run() {
-    CalibrationDataStorage *storage = readCalibrationDataStorage(calibrationListPath);
     this->calculatedData = std::vector<Timestamp>();
     for (auto const &entry: this->fileItemToTimestampsMap) {
         FilesListItem item = entry.first;
         std::vector<tm *> timeStamps = entry.second;
         DataSeeker *seeker = new DataSeeker(item.filepath);
-        seeker->setCalibrationData(storage);
+        seeker->setCalibrationData(this->storage);
         int size = item.nbands == 33 ? 2048 * 8 : 2048;
         for (tm *timestamp: timeStamps) {
             time_t epochSecondsStarTime = mktime(timestamp);
@@ -59,4 +58,12 @@ CalibrationDataStorage *FourierHandler::readCalibrationDataStorage(std::string p
     diff = (clock() - start) / CLOCKS_PER_SEC;
     cout << "reading calibration file took " << diff << " sec" << endl;
     return storage;
+}
+
+CalibrationDataStorage *FourierHandler::getStorage() const {
+    return storage;
+}
+
+void FourierHandler::setStorage(CalibrationDataStorage *storage) {
+    FourierHandler::storage = storage;
 }
