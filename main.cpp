@@ -3,6 +3,7 @@
 #include "Time/TimeCoordinateHandler.h"
 #include "FileHandler//FileHandler.h"
 #include "FourierHandler/FourierHandler.h"
+#include "Summarizing/SummarizeHandler.h"
 
 CalibrationDataStorage *readCalibrationDataStorage(const string &basicString);
 
@@ -29,14 +30,14 @@ int main(int argc, char **argv) {
     CalibrationDataStorage* storage = readCalibrationDataStorage(config.getCalibrationListPath());
     TimeCoordinateHandler handler = TimeCoordinateHandler(config);
     handler.generateTimeCoordinates();
-
-    std::vector<double> justExample = handler.getTimeCoordinateSet()[0].getTimeCoordinatesWithSameStarTime();
     // should be inside for-cycle
+    std::vector<double> justExample = handler.getTimeCoordinateSet()[0].getTimeCoordinatesWithSameStarTime();
     FileHandler fileHandler = FileHandler(justExample, config);
     fileHandler.calculateRelatedFiles();
-    FourierHandler fourierHandler = FourierHandler(config, fileHandler.getFileNameToTimestampsMap(), context);
+    FourierHandler fourierHandler = FourierHandler(fileHandler.getFileNameToTimestampsMap(), context);
     fourierHandler.setStorage(storage);
     fourierHandler.run();
+    SummarizeHandler summarizeHandler = SummarizeHandler(fourierHandler.getCalculatedData());
     // end
     clReleaseCommandQueue(context.getClCommandQueue());
     clReleaseContext(context.getContext());

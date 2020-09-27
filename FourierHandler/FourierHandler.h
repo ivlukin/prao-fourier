@@ -20,28 +20,28 @@
 
 class FourierHandler {
 private:
-    int starSeconds;
-    double duration;
+    //double duration;
     std::map<FilesListItem, std::vector<tm*>> fileItemToTimestampsMap;
+private:
     OpenCLContext context;
     std::vector<Timestamp> calculatedData;
     CalibrationDataStorage *storage;
-private:
-    CalibrationDataStorage *readCalibrationDataStorage(std::string path_calibration);
 public:
     FourierHandler() = default;
 
-    FourierHandler(const Config& config, std::map<FilesListItem, std::vector<tm*>> fileItemToTimestampsMap, OpenCLContext context) {
-        this->starSeconds = config.getStep();
-        this->duration = config.getDurationStarSeconds();
+    FourierHandler(std::map<FilesListItem, std::vector<tm*>> fileItemToTimestampsMap, OpenCLContext context) {
+        //this->duration = config.getDurationStarSeconds();
         this->fileItemToTimestampsMap = std::move(fileItemToTimestampsMap);
         this->context = context;
     }
     int run();
 
-    CalibrationDataStorage *getStorage() const;
-
     void setStorage(CalibrationDataStorage *storage);
+
+    const vector<Timestamp> &getCalculatedData() const {
+        return calculatedData;
+    }
+
 };
 
 

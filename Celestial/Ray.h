@@ -13,12 +13,13 @@ class Ray {
 private:
     std::map<int, std::vector<float>> bandMap;
     int number;
+    std::vector<float> bandAverage;
+    void calculateBandAverage();
 public:
     Ray() = default;
     explicit Ray(int ray_num): number(ray_num) {}
-    const std::map<int, std::vector<float>> &getBandMap() const {
-        return bandMap;
-    }
+
+    std::vector<float> &getBandAverage();
 
     void setBandMap(const std::map<int, std::vector<float>> &bandMap) {
         Ray::bandMap = bandMap;
