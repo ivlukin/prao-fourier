@@ -18,20 +18,15 @@ int FourierHandler::run() {
         DataSeeker *seeker = new DataSeeker(item.filepath);
         seeker->setCalibrationData(storage);
         int size = -1;
-        if (item.nbands == 33) {
-            size = 2048 * 8;
-        } else {
-            size = 2048;
-        }
+        size = (int) (duration / item.tresolution) - 1;
         for (tm *timestamp: timeStamps) {
-
             for (int ray = 0; ray < 48; ray++) {
                 std::map<int, std::vector<float>> bandMap;
                 for (int band = 0; band < item.nbands; ++band) {
-                    // TODO calculate here time offset depending on time, ray, freq
-                    int offset = 0;
-                    //std::vector<float> readData = seeker->seek(ray, band, event->getTime(), size);
-                    std::vector<float> readData = seeker->seek(ray, band, offset, size);
+                    time_t epochSecondsStarTime = mktime(timestamp);
+                    time_t epochSecondsSunTime = to_SunTime(epochSecondsStarTime);
+                    time_t timeElapsedFromHourBegin = epochSecondsSunTime % (60 * 60);
+                    std::vector<float> readData = seeker->seek(ray, band, timeElapsedFromHourBegin, size);
                     FourierTransformer fourierTransformer = FourierTransformer(context, readData.data(),
                                                                                readData.size());
                     fourierTransformer.transform();

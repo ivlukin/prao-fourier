@@ -37,7 +37,7 @@ public:
     }
     //main methods
 public:
-    std::vector<float> seek(int ray, int band, int point, int numPoints);
+    std::vector<float> seek(int ray, int band, int timeElapsedInSeconds, int size);
 
     const DataHeader &getHeader() const {
         return dataHeader;
