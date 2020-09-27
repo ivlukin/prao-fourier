@@ -15,7 +15,7 @@ std::vector<float> DataSeeker::seek(int ray, int band, int timeElapsedInSeconds,
 
     filestream.seekg(caret, std::ifstream::beg);
     char *buffer = new char[sizeof(float)];
-    for (int i = 0; i < numPoints; ++i) {
+    for (int i = 0; i < size; ++i) {
         //read data and cast it to float
         filestream.read(buffer, sizeof(float));
         float signal = ((float *) buffer)[0];

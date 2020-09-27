@@ -14,7 +14,9 @@
 #include "../Time/TimeCoordinate.h"
 #include "../Context/OpenCLContext.h"
 #include "FourierTransformer.h"
-
+#include "../Celestial/Ray.h"
+#include <cmath>
+#include "../Celestial/Timestamp.h"
 
 class FourierHandler {
 private:
@@ -23,6 +25,8 @@ private:
     double duration;
     std::map<FilesListItem, std::vector<tm*>> fileItemToTimestampsMap;
     OpenCLContext context;
+    std::vector<Timestamp> calculatedData;
+
 
 
 private:

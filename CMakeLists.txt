@@ -22,5 +22,5 @@ add_executable(prao_fourier main.cpp
         Context/OpenCLContext.h Context/OpenCLContext.cpp
         FourierHandler/FourierTransformer.cpp FourierHandler/FourierHandler.h
         FourierHandler/Processor.cpp FourierHandler/Processor.h
-        Reader/DataSeeker.h Reader/DataSeeker.cpp)
+        Reader/DataSeeker.h Reader/DataSeeker.cpp Celestial/Ray.cpp Celestial/Ray.h Celestial/Timestamp.cpp Celestial/Timestamp.h)
 target_link_libraries(prao_fourier OpenCL::OpenCL clFFT)

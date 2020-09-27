@@ -2,31 +2,29 @@
 // Created by sorrow on 20.09.2020.
 //
 
-#include <cmath>
+
 #include "FourierHandler.h"
 
 
 int FourierHandler::run() {
     CalibrationDataStorage *storage = readCalibrationDataStorage(calibrationListPath);
-
+    this->calculatedData = std::vector<Timestamp>();
     for (auto const &entry: this->fileItemToTimestampsMap) {
-//        DataReader *reader = item.getDataReader(this->duration);
-//        auto *data_reordered_buffer = new float[reader->getNeedBufferSize()];
-//        reader->setCalibrationData(storage);
         FilesListItem item = entry.first;
         std::vector<tm *> timeStamps = entry.second;
         DataSeeker *seeker = new DataSeeker(item.filepath);
         seeker->setCalibrationData(storage);
-        int size = -1;
-        size = (int) (duration / item.tresolution) - 1;
+        int size = item.nbands == 33 ? 2048 * 8 : 2048;
         for (tm *timestamp: timeStamps) {
-            for (int ray = 0; ray < 48; ray++) {
+            time_t epochSecondsStarTime = mktime(timestamp);
+            time_t epochSecondsSunTime = to_SunTime(epochSecondsStarTime);
+            time_t timeElapsedFromHourBegin = epochSecondsSunTime % (60 * 60);
+            Timestamp skyTimestamp = Timestamp(timestamp);
+            for (int _ray = 0; _ray < 48; _ray++) {
+                Ray ray = Ray(_ray + 1);
                 std::map<int, std::vector<float>> bandMap;
                 for (int band = 0; band < item.nbands; ++band) {
-                    time_t epochSecondsStarTime = mktime(timestamp);
-                    time_t epochSecondsSunTime = to_SunTime(epochSecondsStarTime);
-                    time_t timeElapsedFromHourBegin = epochSecondsSunTime % (60 * 60);
-                    std::vector<float> readData = seeker->seek(ray, band, timeElapsedFromHourBegin, size);
+                    std::vector<float> readData = seeker->seek(_ray, band, timeElapsedFromHourBegin, size);
                     FourierTransformer fourierTransformer = FourierTransformer(context, readData.data(),
                                                                                readData.size());
                     fourierTransformer.transform();
@@ -41,7 +39,11 @@ int FourierHandler::run() {
                     }
                     bandMap[band] = modulus;
                 }
+                ray.setBandMap(bandMap);
+                std::pair<int, Ray> to_insert = std::pair<int, Ray>(_ray + 1, ray);
+                skyTimestamp.getRayMap()[_ray + 1] = ray;
             }
+            calculatedData.push_back(skyTimestamp);
         }
     }
     return 0;
