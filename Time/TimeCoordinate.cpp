@@ -23,3 +23,7 @@ TimeCoordinate::TimeCoordinate(time_t beginSunTime, time_t endSunTime) {
 const std::vector<double> &TimeCoordinate::getTimeCoordinatesWithSameStarTime() const {
     return timeCoordinatesWithSameStarTime;
 }
+
+time_t TimeCoordinate::getBeginDateTime() const {
+    return beginDateTime;
+}

@@ -1,9 +1,11 @@
 #include <iostream>
 #include <vector>
+#include <sys/stat.h>
 #include "Time/TimeCoordinateHandler.h"
 #include "FileHandler//FileHandler.h"
 #include "FourierHandler/FourierHandler.h"
 #include "Summarizing/SummarizeHandler.h"
+#include "Writing/WriteHandler.h"
 
 CalibrationDataStorage *readCalibrationDataStorage(const string &basicString);
 
@@ -24,21 +26,27 @@ int main(int argc, char **argv) {
     }
 
     Config config = Config(args[2].data());
+#ifdef _WIN32
+    CreateDirectory(outputDirectoryForExactFile, nullptr);
+#else
+    mkdir(config.getOutputPath().c_str(), 0777);
+#endif
     OpenCLContext context = OpenCLContext();
     context.initContext();
 
     CalibrationDataStorage* storage = readCalibrationDataStorage(config.getCalibrationListPath());
     TimeCoordinateHandler handler = TimeCoordinateHandler(config);
     handler.generateTimeCoordinates();
-    // should be inside for-cycle
-    std::vector<double> justExample = handler.getTimeCoordinateSet()[0].getTimeCoordinatesWithSameStarTime();
-    FileHandler fileHandler = FileHandler(justExample, config);
-    fileHandler.calculateRelatedFiles();
-    FourierHandler fourierHandler = FourierHandler(fileHandler.getFileNameToTimestampsMap(), context);
-    fourierHandler.setStorage(storage);
-    fourierHandler.run();
-    SummarizeHandler summarizeHandler = SummarizeHandler(fourierHandler.getCalculatedData());
-    // end
+    for (const TimeCoordinate& coordinate: handler.getTimeCoordinateSet()) {
+        const std::vector<double> &coordinatesWithSameStarTime = coordinate.getTimeCoordinatesWithSameStarTime();
+        FileHandler fileHandler = FileHandler(coordinatesWithSameStarTime, config);
+        fileHandler.calculateRelatedFiles();
+        FourierHandler fourierHandler = FourierHandler(fileHandler.getFileNameToTimestampsMap(), context);
+        fourierHandler.setStorage(storage);
+        fourierHandler.run();
+        SummarizeHandler summarizeHandler = SummarizeHandler(fourierHandler.getCalculatedData());
+        WriteHandler writeHandler = WriteHandler(config, summarizeHandler.getSummaryForEveryRayInTime(), coordinate);
+    }
     clReleaseCommandQueue(context.getClCommandQueue());
     clReleaseContext(context.getContext());
     std::cout << "Finish!" << std::endl;

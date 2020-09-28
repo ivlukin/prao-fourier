@@ -25,6 +25,8 @@ public:
 
     const std::vector<double> &getTimeCoordinatesWithSameStarTime() const;
 
+    time_t getBeginDateTime() const;
+
 };
 
 

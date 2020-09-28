@@ -13,7 +13,7 @@
 class SummarizeHandler {
 private:
     std::vector<Timestamp> relatedTimestamps;
-    std::map<int, std::vector<double>> summaryForEveryRay;
+    std::map<int, std::vector<double>> summaryForEveryRayInTime;
     bool isCalculated = false;
 public:
     explicit SummarizeHandler(std::vector<Timestamp> relatedTimestamps) {
@@ -21,11 +21,12 @@ public:
     }
     SummarizeHandler() = default;
 
-    std::map<int, std::vector<double>> &getSummaryForEveryRay() {
+    std::map<int, std::vector<double>> &getSummaryForEveryRayInTime() {
         if (!isCalculated)
             calculateSummary();
-        return summaryForEveryRay;
+        return summaryForEveryRayInTime;
     }
+
 
     void calculateSummary();
 };

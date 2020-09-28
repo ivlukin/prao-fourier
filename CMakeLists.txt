@@ -17,7 +17,6 @@ add_executable(prao_fourier main.cpp
         Calibration/CalibrationData.cpp Calibration/CalibrationData.h
         Calibration/CalibrationDataInput.cpp Calibration/CalibrationDataInput.h
         Calibration/CalibrationDataStorage.cpp Calibration/CalibrationDataStorage.h
-        Point/Point.h
         FourierHandler/FourierHandler.cpp FourierHandler/FourierHandler.h
         Context/OpenCLContext.h Context/OpenCLContext.cpp
         FourierHandler/FourierTransformer.cpp FourierHandler/FourierHandler.h
@@ -26,5 +25,5 @@ add_executable(prao_fourier main.cpp
         Celestial/Ray.cpp Celestial/Ray.h
         Celestial/Timestamp.cpp Celestial/Timestamp.h
         Summarizing/SummarizeHandler.cpp
-        Summarizing/SummarizeHandler.h)
+        Summarizing/SummarizeHandler.h Writing/WriteHandler.cpp Writing/WriteHandler.h)
 target_link_libraries(prao_fourier OpenCL::OpenCL clFFT)
