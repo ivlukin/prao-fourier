@@ -8,7 +8,11 @@
 
 void WriteHandler::write() {
     time_t beginDateTime = timeCoordinate.getBeginDateTime();
-    tm* beginDateTimeTm = localtime(&beginDateTime);
+    tm *beginDateTimeTm = gmtime(&beginDateTime);
+    if (beginDateTimeTm->tm_year < 200) {
+        beginDateTimeTm->tm_year += 1900;
+        beginDateTimeTm->tm_mon += 1;
+    }
     std::string dirPath = getDirPathFromTm(beginDateTimeTm);
     std::string totalDirPath = outputPath + getSystemSeparator() + dirPath;
 
@@ -27,10 +31,10 @@ void WriteHandler::write() {
 }
 
 void
-WriteHandler::writeToFile(const std::string &filepath, int ray_num, const std::vector<double>& fourierResult) {
+WriteHandler::writeToFile(const std::string &filepath, int ray_num, const std::vector<double> &fourierResult) {
 
     std::ofstream out(filepath);
-    double tresolution = fourierResult.size() == 2048 ? 100 : 12.5;
+    double tresolution = fourierResult.size() == (2048 / 2 + 1) ? 100 : 12.5;
 
     out << "numpar\t" << 4 << std::endl;
     out << "ray_number\t" << ray_num << std::endl;

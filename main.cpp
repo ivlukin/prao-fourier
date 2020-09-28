@@ -46,6 +46,7 @@ int main(int argc, char **argv) {
         fourierHandler.run();
         SummarizeHandler summarizeHandler = SummarizeHandler(fourierHandler.getCalculatedData());
         WriteHandler writeHandler = WriteHandler(config, summarizeHandler.getSummaryForEveryRayInTime(), coordinate);
+        writeHandler.write();
     }
     clReleaseCommandQueue(context.getClCommandQueue());
     clReleaseContext(context.getContext());

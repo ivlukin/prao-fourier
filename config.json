@@ -4,7 +4,7 @@
   "storage": "/media/sorrow/Data/prao/north rays/",
   "range": "N1",
   "step": 10,
-  "outputPath": "/path/to/output",
+  "outputPath": "/home/sorrow/prao-output/",
   "mode": ".pnt",
   "fileListPath": "/home/sorrow/CLionProjects/prao-compresser/resources/filesListSmall.txt",
   "calibrationListPath": "/home/sorrow/CLionProjects/prao-compresser/resources/smallCalibrationFull.txt",

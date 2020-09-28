@@ -40,7 +40,7 @@ int FourierHandler::run() {
                 }
                 ray.setBandMap(bandMap);
                 std::pair<int, Ray> to_insert = std::pair<int, Ray>(_ray + 1, ray);
-                skyTimestamp.getRayMap()[_ray + 1] = ray;
+                skyTimestamp.getRayMap()[_ray] = ray;
             }
             calculatedData.push_back(skyTimestamp);
         }

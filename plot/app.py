@@ -46,11 +46,11 @@ def run(dir_path):
         logger.error('Directory %s does not exist, exiting', runtime['dir_path'])
         return
 
-    logger.debug(glob.glob(os.path.expanduser(runtime['dir_path'] + os.sep + "*.fourier")))
+    logger.debug(glob.glob(os.path.expanduser(runtime['dir_path'] + os.sep + "*.fou")))
     runtime['files'] = list(
-        map(os.path.basename, glob.glob(os.path.expanduser(runtime['dir_path'] + os.sep + "*.fourier"))))
+        map(os.path.basename, glob.glob(os.path.expanduser(runtime['dir_path'] + os.sep + "*.fou"))))
     if len(runtime['files']) == 0:
-        logger.error('List of .fourier files is empty, exiting')
+        logger.error('List of .fou files is empty, exiting')
         return
 
     logger.debug(runtime['files'])
