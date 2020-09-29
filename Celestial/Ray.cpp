@@ -13,7 +13,8 @@
 
 void Ray::calculateBandAverage()  {
     bandAverage = std::vector<float>(bandMap[0].size());
-    for (const std::pair<int, std::vector<float>>& bandEntry: bandMap) {
+    std::fill(bandAverage.begin(), bandAverage.end(), 0);
+    for (auto& bandEntry: bandMap) {
         for (int i = 0; i < bandEntry.second.size(); ++i) {
             bandAverage[i] += bandEntry.second[i];
         }

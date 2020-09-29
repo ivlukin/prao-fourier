@@ -7,8 +7,10 @@
 void SummarizeHandler::calculateSummary() {
     int size = relatedTimestamps[0].getRayMap()[0].getBandAverage().size();
     summaryForEveryRayInTime = std::map<int, std::vector<double>>();
-    for (int i = 0; i < 48; ++i)
+    for (int i = 0; i < 48; ++i) {
         summaryForEveryRayInTime[i] = std::vector<double>(size);
+        std::fill(summaryForEveryRayInTime[i].begin(), summaryForEveryRayInTime[i].end(), 0);
+    }
 
     for (Timestamp timestamp: relatedTimestamps) {
         for (int i = 0; i < 48; i++) {

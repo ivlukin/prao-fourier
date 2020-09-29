@@ -32,6 +32,7 @@ def load(filename):
         fp.seek(header_length)
         signals.fromfile(fp, buffer_size // 4)
 
+    logger.debug(signals)
     # create dataframe for plot
     dataaslists = [[i, signals[i]] for i in range(0, len(signals))]
     df = pandas.DataFrame(dataaslists, columns=['channel', 'modulus'])

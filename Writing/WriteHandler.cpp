@@ -38,14 +38,19 @@ WriteHandler::writeToFile(const std::string &filepath, int ray_num, const std::v
 
     out << "numpar\t" << 4 << std::endl;
     out << "ray_number\t" << ray_num << std::endl;
-    out << "utc_begin\t" << timeCoordinate.getBeginDateTime() << std::endl;
+    out << "msk_begin\t" << timeCoordinate.getBeginDateTime() << std::endl;
     out << "time_resolution\t" << tresolution << std::endl;
 
     out.close();
 
+    std::vector<float> resultAsFloat = std::vector<float>();
+    resultAsFloat.reserve(fourierResult.size());
+    for (double value: fourierResult)
+        resultAsFloat.push_back((float) value);
+
     FILE *f = fopen(filepath.c_str(), "ab");
-    size_t resultSize = fourierResult.size();
-    fwrite(fourierResult.data(), 4, resultSize, f);
+    size_t resultSize = resultAsFloat.size();
+    fwrite(&resultAsFloat[0], sizeof(std::vector<float>::value_type), resultSize, f);
 
     fclose(f);
 }

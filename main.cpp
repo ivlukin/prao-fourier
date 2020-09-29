@@ -37,6 +37,7 @@ int main(int argc, char **argv) {
     CalibrationDataStorage* storage = readCalibrationDataStorage(config.getCalibrationListPath());
     TimeCoordinateHandler handler = TimeCoordinateHandler(config);
     handler.generateTimeCoordinates();
+    int count = 0;
     for (const TimeCoordinate& coordinate: handler.getTimeCoordinateSet()) {
         const std::vector<double> &coordinatesWithSameStarTime = coordinate.getTimeCoordinatesWithSameStarTime();
         FileHandler fileHandler = FileHandler(coordinatesWithSameStarTime, config);
@@ -47,9 +48,13 @@ int main(int argc, char **argv) {
         SummarizeHandler summarizeHandler = SummarizeHandler(fourierHandler.getCalculatedData());
         WriteHandler writeHandler = WriteHandler(config, summarizeHandler.getSummaryForEveryRayInTime(), coordinate);
         writeHandler.write();
+        ++count;
+        if (count > 5)
+            break;
     }
     clReleaseCommandQueue(context.getClCommandQueue());
     clReleaseContext(context.getContext());
+    clfftTeardown();
     std::cout << "Finish!" << std::endl;
 }
 
