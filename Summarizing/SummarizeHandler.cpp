@@ -5,7 +5,7 @@
 #include "SummarizeHandler.h"
 
 void SummarizeHandler::calculateSummary() {
-    int size = relatedTimestamps[0].getRayMap()[0].getBandAverage().size();
+    int size = relatedTimestamps[0].getRayMap()[0].getBandSummary().size();
     summaryForEveryRayInTime = std::map<int, std::vector<double>>();
     for (int i = 0; i < 48; ++i) {
         summaryForEveryRayInTime[i] = std::vector<double>(size);
@@ -15,8 +15,8 @@ void SummarizeHandler::calculateSummary() {
     for (Timestamp timestamp: relatedTimestamps) {
         for (int i = 0; i < 48; i++) {
             Ray ray = timestamp.getRayMap()[i];
-            for (int j = 0; j < ray.getBandAverage().size(); j++) {
-                summaryForEveryRayInTime[i][j] += ray.getBandAverage()[j];
+            for (int j = 0; j < ray.getBandSummary().size(); j++) {
+                summaryForEveryRayInTime[i][j] += ray.getBandSummary()[j];
             }
         }
     }
