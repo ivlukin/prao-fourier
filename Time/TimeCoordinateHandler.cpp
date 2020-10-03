@@ -27,8 +27,17 @@ std::tm TimeCoordinateHandler::getDateTimeFromString(const std::string &dateTime
 
 void TimeCoordinateHandler::generateTimeCoordinates() {
     // all time coordinates will be stored epoch time (and timezone doesn't matter)
-    std::string searchingFile = getFileNameFromDate(startDate.tm_year, startDate.tm_mon, startDate.tm_mday,
-                                                    startDate.tm_hour);
+    int year = startDate.tm_year;
+    int month = startDate.tm_mon;
+    if (year < 200) {
+        year += 1900;
+        month += 1;
+    }
+    int mday = startDate.tm_mday;
+    int hour = startDate.tm_hour;
+
+
+    std::string searchingFile = getFileNameFromDate(year, month, mday, hour);
     bool found = scanForFileItem(searchingFile);
     if (!found) {
         throw std::logic_error("couldn't find entry in fileListPath of startDate");
@@ -46,7 +55,6 @@ void TimeCoordinateHandler::generateTimeCoordinates() {
 }
 
 bool TimeCoordinateHandler::scanForFileItem(const std::string &fileName) {
-    bool found = false;
     ifstream in(this->fileListPath);
     if (!in.good())
         throw std::logic_error(fileListPath + " not found!");
@@ -54,13 +62,12 @@ bool TimeCoordinateHandler::scanForFileItem(const std::string &fileName) {
         FilesListItem item;
         in >> item;
         if (item.filename == fileName) {
-            found = true;
             firstFile = item;
             return true;
         }
     }
     in.close();
-    return found;
+    return false;
 }
 
 std::string TimeCoordinateHandler::getFileNameFromDate(int year, int month, int day, int hour) {
