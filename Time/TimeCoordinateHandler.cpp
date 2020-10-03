@@ -27,14 +27,17 @@ std::tm TimeCoordinateHandler::getDateTimeFromString(const std::string &dateTime
 
 void TimeCoordinateHandler::generateTimeCoordinates() {
     // all time coordinates will be stored epoch time (and timezone doesn't matter)
-    std::string searchingFile = getFileNameFromDate(startDate.tm_year, startDate.tm_mon, startDate.tm_mday, startDate.tm_hour);
+    std::string searchingFile = getFileNameFromDate(startDate.tm_year, startDate.tm_mon, startDate.tm_mday,
+                                                    startDate.tm_hour);
     bool found = scanForFileItem(searchingFile);
     if (!found) {
         throw std::logic_error("couldn't find entry in fileListPath of startDate");
     }
-    time_t startDateTimeLocal = mktime(&this->startDate);
-    time_t endDateTimeLocal = mktime(&this->endDate);
-    for (int sec = 0; sec <= 3600 * 24; sec += this->step) {
+
+    double startDateTimeLocal = firstFile.star_time_start;
+    double endDateTimeLocal = to_SunTime(mktime(&this->endDate));
+    int numIterations = (int) (to_SunTime(3600 * 24) / this->step);
+    for (int i = 0; i < numIterations; ++i) {
         TimeCoordinate timeCoordinate = TimeCoordinate(startDateTimeLocal, endDateTimeLocal);
         timeCoordinateSet.push_back(timeCoordinate);
         startDateTimeLocal += this->step;
@@ -42,7 +45,7 @@ void TimeCoordinateHandler::generateTimeCoordinates() {
 
 }
 
-bool TimeCoordinateHandler::scanForFileItem(const std::string& fileName) {
+bool TimeCoordinateHandler::scanForFileItem(const std::string &fileName) {
     bool found = false;
     ifstream in(this->fileListPath);
     if (!in.good())

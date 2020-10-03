@@ -38,7 +38,7 @@ WriteHandler::writeToFile(const std::string &filepath, int ray_num, const std::v
 
     out << "numpar\t" << 4 << std::endl;
     out << "ray_number\t" << ray_num << std::endl;
-    out << "msk_begin\t" << timeCoordinate.getBeginDateTime() << std::endl;
+    out << "msk_begin\t" << to_starTime(timeCoordinate.getBeginDateTime()) << std::endl;
     out << "time_resolution\t" << tresolution << std::endl;
 
     out.close();

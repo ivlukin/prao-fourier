@@ -4,26 +4,27 @@
 
 #include "TimeCoordinate.h"
 
-void TimeCoordinate::generateSunTimes(time_t beginSunTime, time_t endSunTime) {
+void TimeCoordinate::generateStarTimes(double beginStarTime, double endStarTime) {
     timeCoordinatesWithSameStarTime = std::vector<double>();
-    double currentStarTime = beginSunTime;
-    for (time_t exactTime = beginSunTime; exactTime <= endSunTime; exactTime += 24 * 3600) {
+    double currentStarTime = beginStarTime;
+    int numIterations = (int) ((endStarTime - beginStarTime) / to_SunTime(24 * 3600));
+    double starTimeStep = to_SunTime(24 * 3600);
+    for (int i = 0; i < numIterations; ++i) {
         timeCoordinatesWithSameStarTime.push_back(currentStarTime);
-        currentStarTime += to_SunTime(24 * 3600);
+        currentStarTime += starTimeStep;
     }
 }
 
-TimeCoordinate::TimeCoordinate(time_t beginSunTime, time_t endSunTime) {
-    this->beginDateTime = beginSunTime;
-    this->endDateTime = endSunTime;
-    // generate related sun times with step 1 star day
-    generateSunTimes(beginSunTime, endSunTime);
+TimeCoordinate::TimeCoordinate(double beginStarTime, double endStarTime) {
+    this->beginDateTime = beginStarTime;
+    // generate related star times with step 1 star day
+    generateStarTimes(beginStarTime, endStarTime);
 }
 
 const std::vector<double> &TimeCoordinate::getTimeCoordinatesWithSameStarTime() const {
     return timeCoordinatesWithSameStarTime;
 }
 
-time_t TimeCoordinate::getBeginDateTime() const {
+double TimeCoordinate::getBeginDateTime() const {
     return beginDateTime;
 }

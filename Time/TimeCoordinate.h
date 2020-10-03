@@ -12,20 +12,19 @@
 
 class TimeCoordinate {
 private:
-    time_t beginDateTime;
-    time_t endDateTime;
+    double beginDateTime;
     std::vector<double> timeCoordinatesWithSameStarTime;
 
 private:
-   void generateSunTimes(time_t beginSunTime, time_t endSunTime);
+   void generateStarTimes(double beginStarTime, double endStarTime);
 public:
-    TimeCoordinate(time_t beginSunTime, time_t endSunTime);
+    TimeCoordinate(double beginStarTime, double endStartTime);
 
     TimeCoordinate() = default;
 
     const std::vector<double> &getTimeCoordinatesWithSameStarTime() const;
 
-    time_t getBeginDateTime() const;
+    double getBeginDateTime() const;
 
 };
 
