@@ -80,7 +80,8 @@ void FileHandler::processFilesItemsList() {
 void FileHandler::calculateRelatedFiles() {
     this->timeCoordinates = std::vector<std::tm *>();
     for (double starTime: this->timeCoordinatesEpoch) {
-        time_t sunTimeAsInt = std::floor(starTime);
+        // важно получить именно солнечное время, поскольку файлы хранятся именно в солнечном календаре
+        time_t sunTimeAsInt = std::floor(to_SunTime(starTime));
         tm *starTimeStruct = localtime(&sunTimeAsInt);
         if (starTimeStruct->tm_year < 200) {
             starTimeStruct->tm_year += 1900;

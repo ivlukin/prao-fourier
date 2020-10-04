@@ -3,7 +3,7 @@
   "endDate": "2014-11-01 00:00:00",
   "storage": "/media/sorrow/Data/prao/north rays/",
   "range": "N1",
-  "step": 10,
+  "step": 60,
   "outputPath": "/home/sorrow/prao-output/",
   "mode": ".pnt",
   "fileListPath": "/home/sorrow/CLionProjects/prao-compresser/resources/filesListSmall.txt",

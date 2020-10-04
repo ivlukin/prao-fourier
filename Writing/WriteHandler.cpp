@@ -7,8 +7,8 @@
 #include "WriteHandler.h"
 
 void WriteHandler::write() {
-    time_t beginDateTime = timeCoordinate.getBeginDateTime();
-    tm *beginDateTimeTm = gmtime(&beginDateTime);
+    time_t beginDateTime = to_SunTime(timeCoordinate.getBeginDateTime());
+    tm *beginDateTimeTm = localtime(&beginDateTime);
     if (beginDateTimeTm->tm_year < 200) {
         beginDateTimeTm->tm_year += 1900;
         beginDateTimeTm->tm_mon += 1;
@@ -35,10 +35,11 @@ WriteHandler::writeToFile(const std::string &filepath, int ray_num, const std::v
 
     std::ofstream out(filepath);
     double tresolution = fourierResult.size() == (2048 / 2 + 1) ? 100 : 12.5;
+    double _localTime = to_SunTime(timeCoordinate.getBeginDateTime());
 
     out << "numpar\t" << 4 << std::endl;
     out << "ray_number\t" << ray_num << std::endl;
-    out << "msk_begin\t" << to_starTime(timeCoordinate.getBeginDateTime()) << std::endl;
+    out << "msk_begin\t" << _localTime << std::endl;
     out << "time_resolution\t" << tresolution << std::endl;
 
     out.close();

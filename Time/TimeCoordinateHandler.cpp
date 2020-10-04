@@ -43,8 +43,9 @@ void TimeCoordinateHandler::generateTimeCoordinates() {
         throw std::logic_error("couldn't find entry in fileListPath of startDate");
     }
 
-    double startDateTimeLocal = firstFile.star_time_start;
-    double endDateTimeLocal = to_SunTime(mktime(&this->endDate));
+    double startDateTimeLocal = to_starTime(mktime(&this->startDate));
+    startDateTimeLocal += firstFile.star_time_start;
+    double endDateTimeLocal = to_starTime(mktime(&this->endDate));
     int numIterations = (int) (to_SunTime(3600 * 24) / this->step);
     for (int i = 0; i < numIterations; ++i) {
         TimeCoordinate timeCoordinate = TimeCoordinate(startDateTimeLocal, endDateTimeLocal);
