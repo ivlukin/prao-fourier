@@ -39,7 +39,7 @@ WriteHandler::writeToFile(const std::string &filepath, int ray_num, const std::v
 
     out << "numpar\t" << 4 << std::endl;
     out << "ray_number\t" << ray_num << std::endl;
-    out << "msk_begin\t" << _localTime << std::endl;
+    out << std::fixed << std::setprecision(4) <<"msk_begin\t" << _localTime << std::endl;
     out << "time_resolution\t" << tresolution << std::endl;
 
     out.close();
