@@ -20,7 +20,7 @@
 
 class FourierHandler {
 private:
-    //double duration;
+    double duration;
     std::map<FilesListItem, std::vector<tm*>> fileItemToTimestampsMap;
 private:
     OpenCLContext context;
@@ -29,8 +29,8 @@ private:
 public:
     FourierHandler() = default;
 
-    FourierHandler(std::map<FilesListItem, std::vector<tm*>> fileItemToTimestampsMap, OpenCLContext context) {
-        //this->duration = config.getDurationStarSeconds();
+    FourierHandler(std::map<FilesListItem, std::vector<tm*>> fileItemToTimestampsMap, OpenCLContext context, double duration) {
+        this->duration = duration;
         this->fileItemToTimestampsMap = std::move(fileItemToTimestampsMap);
         this->context = context;
     }

@@ -45,7 +45,7 @@ int main(int argc, char **argv) {
         const std::vector<double> &coordinatesWithSameStarTime = coordinate.getTimeCoordinatesWithSameStarTime();
         FileHandler fileHandler = FileHandler(coordinatesWithSameStarTime, config);
         fileHandler.calculateRelatedFiles();
-        FourierHandler fourierHandler = FourierHandler(fileHandler.getFileNameToTimestampsMap(), context);
+        FourierHandler fourierHandler = FourierHandler(fileHandler.getFileNameToTimestampsMap(), context, config.getDurationStarSeconds());
         fourierHandler.setStorage(storage);
         fourierHandler.run();
         SummarizeHandler summarizeHandler = SummarizeHandler(fourierHandler.getCalculatedData());

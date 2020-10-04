@@ -18,6 +18,10 @@ int FourierHandler::run() {
             time_t epochSecondsStarTime = mktime(timestamp);
             time_t epochSecondsSunTime = to_SunTime(epochSecondsStarTime);
             time_t timeElapsedFromHourBegin = epochSecondsSunTime % (60 * 60);
+            if (timeElapsedFromHourBegin + this->duration > 3600) {
+                int tail = (int) (timeElapsedFromHourBegin + this->duration) - 3600;
+                timeElapsedFromHourBegin -= tail;
+            }
             Timestamp skyTimestamp = Timestamp(timestamp);
             for (int _ray = 0; _ray < 48; _ray++) {
                 Ray ray = Ray(_ray + 1);
@@ -47,7 +51,6 @@ int FourierHandler::run() {
     }
     return 0;
 }
-
 
 
 void FourierHandler::setStorage(CalibrationDataStorage *storage) {
