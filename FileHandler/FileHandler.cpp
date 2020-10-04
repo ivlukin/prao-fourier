@@ -1,10 +1,3 @@
-//
-// Created by sorrow on 15.09.2020.
-//
-
-
-
-
 
 #include "FileHandler.h"
 

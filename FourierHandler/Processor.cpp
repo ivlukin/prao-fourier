@@ -1,7 +1,3 @@
-//
-// Created by sorrow on 03.05.19.
-//
-
 
 #include "Processor.h"
 

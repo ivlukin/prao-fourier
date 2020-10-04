@@ -1,6 +1,3 @@
-//
-// Created by ilukin on 14.05.2019.
-//
 
 #ifndef PRAO_CLASSIFIER_TIME_H
 #define PRAO_CLASSIFIER_TIME_H

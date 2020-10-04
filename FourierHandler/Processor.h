@@ -1,6 +1,3 @@
-//
-// Created by sorrow on 03.05.19.
-//
 
 #ifndef PRAO_CLASSIFIER_PROCESSOR_H
 #define PRAO_CLASSIFIER_PROCESSOR_H

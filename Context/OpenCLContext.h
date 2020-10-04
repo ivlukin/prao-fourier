@@ -1,8 +1,8 @@
-//
-// Created by sorrow on 02.05.19.
-//
 
 #include <CL/cl.h>
+#include <memory>
+#include <map>
+#include <iostream>
 
 
 #ifndef PRAO_CLASSIFIER_OPENCLCONTEXT_H

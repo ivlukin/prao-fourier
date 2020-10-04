@@ -1,6 +1,3 @@
-//
-// Created by ilukin on 20.05.2019.
-//
 
 #include "DataSeeker.h"
 

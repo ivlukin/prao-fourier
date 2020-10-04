@@ -1,6 +1,3 @@
-//
-// Created by ilukin on 14.05.2019.
-//
 
 #include "TimeUtils.h"
 

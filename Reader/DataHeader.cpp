@@ -1,6 +1,3 @@
-//
-// Created by Dolgushev on 04.02.2019.
-//
 
 #include "DataHeader.h"
 

@@ -1,8 +1,3 @@
-//
-// Created by sorrow on 28.09.2020.
-//
-
-
 
 #include "WriteHandler.h"
 

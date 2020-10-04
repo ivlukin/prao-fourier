@@ -1,8 +1,4 @@
-#include <utility>
 
-//
-// Created by ilukin on 20.05.2019.
-//
 
 #ifndef PRAO_CLASSIFIER_DATASEEKER_H
 #define PRAO_CLASSIFIER_DATASEEKER_H
@@ -11,6 +7,7 @@
 #include <fstream>
 #include "DataHeader.h"
 #include "../Calibration/CalibrationDataStorage.h"
+#include <utility>
 
 
 class DataSeeker {

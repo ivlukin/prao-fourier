@@ -1,6 +1,4 @@
-//
-// Created by sorrow on 27.09.2020.
-//
+
 
 #ifndef PRAO_FOURIER_RAY_H
 #define PRAO_FOURIER_RAY_H

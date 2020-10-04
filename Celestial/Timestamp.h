@@ -1,6 +1,3 @@
-//
-// Created by sorrow on 27.09.2020.
-//
 
 #ifndef PRAO_FOURIER_TIMESTAMP_H
 #define PRAO_FOURIER_TIMESTAMP_H

@@ -1,15 +1,5 @@
-#include <memory>
 
-//
-// Created by sorrow on 18.02.19.
-//
-
-#include <iostream>
-#include <fstream>
 #include "OpenCLContext.h"
-#include <memory>
-#include <map>
-
 
 cl_kernel OpenCLContext::compile_kernel(const char filename[], const char kernelName[]) {
     cl_program program = nullptr;

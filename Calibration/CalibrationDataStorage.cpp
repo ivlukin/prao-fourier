@@ -1,6 +1,4 @@
-//
-// Created by work on 04.02.2019.
-//
+
 
 #include "CalibrationDataStorage.h"
 

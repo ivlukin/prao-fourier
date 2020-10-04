@@ -1,6 +1,3 @@
-//
-// Created by sorrow on 20.09.2020.
-//
 
 #ifndef PRAO_FOURIER_FOURIERHANDLER_H
 #define PRAO_FOURIER_FOURIERHANDLER_H

@@ -1,6 +1,4 @@
-//
-// Created by Dolgushev on 04.02.2019.
-//
+
 
 #ifndef PRAO_COMPRESSER_DATAHEADER_H
 #define PRAO_COMPRESSER_DATAHEADER_H

@@ -1,6 +1,3 @@
-//
-// Created by work on 10.02.2019.
-//
 
 #ifndef PRAO_COMPRESSER_FILESLISTITEM_H
 #define PRAO_COMPRESSER_FILESLISTITEM_H

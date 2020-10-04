@@ -1,6 +1,3 @@
-//
-// Created by sorrow on 03.05.19.
-//
 
 #include "FourierTransformer.h"
 

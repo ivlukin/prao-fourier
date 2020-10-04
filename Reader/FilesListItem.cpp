@@ -1,6 +1,3 @@
-//
-// Created by work on 10.02.2019.
-//
 
 #include "FilesListItem.h"
 

@@ -1,7 +1,3 @@
-//
-// Created by sorrow on 20.09.2020.
-//
-
 
 #include "FourierHandler.h"
 
