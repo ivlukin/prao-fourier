@@ -88,7 +88,7 @@ OpenCLContext &OpenCLContext::operator=(const OpenCLContext &oclContext) {
 }
 
 void OpenCLContext::initContext() {
-    //std::cout << "initializating context..." << std::endl;
+
     int ret = -1;
     scanDevices();
     /* создание контекста */
@@ -147,5 +147,6 @@ void OpenCLContext::scanDevices() {
     }
     int chosenDeviceNumber;
     std::cin >> chosenDeviceNumber;
+    std::cout << "initializating OpenCL context..." << std::endl;
     device = deviceIdMap[chosenDeviceNumber];
 }

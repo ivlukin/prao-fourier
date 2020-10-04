@@ -33,12 +33,15 @@ int main(int argc, char **argv) {
 #endif
     OpenCLContext context = OpenCLContext();
     context.initContext();
-
+    std::cout << "reading calibration storage..." << std::endl;
     CalibrationDataStorage* storage = readCalibrationDataStorage(config.getCalibrationListPath());
+    clock_t tStart = clock();
     TimeCoordinateHandler handler = TimeCoordinateHandler(config);
+    std::cout << "generating time coordinates..." << std::endl;
     handler.generateTimeCoordinates();
     int count = 0;
     for (const TimeCoordinate& coordinate: handler.getTimeCoordinateSet()) {
+        std::cout << "processing star_time: " << coordinate.getBeginDateTime() << std::endl;
         const std::vector<double> &coordinatesWithSameStarTime = coordinate.getTimeCoordinatesWithSameStarTime();
         FileHandler fileHandler = FileHandler(coordinatesWithSameStarTime, config);
         fileHandler.calculateRelatedFiles();
@@ -55,6 +58,7 @@ int main(int argc, char **argv) {
     clReleaseCommandQueue(context.getClCommandQueue());
     clReleaseContext(context.getContext());
     clfftTeardown();
+    std::cout << "elapsed time: " << (float) (clock() - tStart) / CLOCKS_PER_SEC << "s" << std::endl;
     std::cout << "Finish!" << std::endl;
 }
 
