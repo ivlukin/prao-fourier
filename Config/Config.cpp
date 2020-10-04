@@ -16,7 +16,6 @@ Config::Config(char *fileName) {
 
     assert(d.HasMember("startDate")); // date of observation started
     assert(d.HasMember("endDate")); // date of observation ended
-    assert(d.HasMember("storage")); //directory where .pnt files stored
     assert(d.HasMember("range")); // north or south
     assert(d.HasMember("step")); // scan step (in seconds)
     assert(d.HasMember("outputPath")); // directory for storing results
@@ -28,7 +27,6 @@ Config::Config(char *fileName) {
     this->startDate= d["startDate"].GetString();
     this->outputPath = d["outputPath"].GetString();
     this->endDate = d["endDate"].GetString();
-    this->storagePath = d["storage"].GetString();
     this->range = d["range"].GetString();
     this->step = d["step"].GetInt();
     this->mode = d["mode"].GetString();
@@ -45,9 +43,6 @@ const std::string &Config::getEndDate() const {
     return endDate;
 }
 
-const std::string &Config::getStoragePath() const {
-    return storagePath;
-}
 
 const std::string &Config::getRange() const {
     return range;

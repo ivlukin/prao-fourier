@@ -19,7 +19,6 @@ public:
 private:
     std::string startDate;
     std::string endDate;
-    std::string storagePath;
     std::string range;
     int step;
     std::string outputPath;
@@ -32,7 +31,6 @@ public:
 
     const std::string &getEndDate() const;
 
-    const std::string &getStoragePath() const;
 
     const std::string &getRange() const;
 
