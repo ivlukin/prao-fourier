@@ -19,7 +19,7 @@ int FourierHandler::run() {
             time_t epochSecondsSunTime = to_SunTime(epochSecondsStarTime);
             time_t timeElapsedFromHourBegin = epochSecondsSunTime % (60 * 60);
             if (timeElapsedFromHourBegin + this->duration > 3600) {
-                int tail = (int) (timeElapsedFromHourBegin + this->duration) - 3600;
+                int tail = (int) (timeElapsedFromHourBegin + this->duration) - 3600 + 1;
                 timeElapsedFromHourBegin -= tail;
             }
             Timestamp skyTimestamp = Timestamp(timestamp);
