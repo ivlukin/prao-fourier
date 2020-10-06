@@ -5,7 +5,7 @@
 void TimeCoordinate::generateStarTimes(double beginStarTime, double endStarTime) {
     timeCoordinatesWithSameStarTime = std::vector<double>();
     double currentStarTime = beginStarTime;
-    int numIterations = (int) ((endStarTime - beginStarTime) / to_SunTime(24 * 3600));
+    int numIterations = (int) ((endStarTime - beginStarTime) / to_SunTime(24 * 3600)) + 1;
     double starTimeStep = to_SunTime(24 * 3600);
     for (int i = 0; i < numIterations; ++i) {
         timeCoordinatesWithSameStarTime.push_back(currentStarTime);
