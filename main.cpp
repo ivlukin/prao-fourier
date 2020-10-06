@@ -9,6 +9,8 @@
 
 CalibrationDataStorage *readCalibrationDataStorage(const string &basicString);
 
+std::string tm_tostring(tm* datetime);
+
 int main(int argc, char **argv) {
     std::vector<std::string> args;
     if (argc != 3) {
@@ -39,9 +41,9 @@ int main(int argc, char **argv) {
     TimeCoordinateHandler handler = TimeCoordinateHandler(config);
     std::cout << "generating time coordinates..." << std::endl;
     handler.generateTimeCoordinates();
-    int count = 0;
     for (const TimeCoordinate& coordinate: handler.getTimeCoordinateSet()) {
-        std::cout << "processing star_time: " << coordinate.getBeginDateTime() << std::endl;
+        time_t sunTime = to_SunTime(coordinate.getBeginDateTime());
+        std::cout << "processing msk_time: " << tm_tostring(localtime(&sunTime)) << std::endl;
         const std::vector<double> &coordinatesWithSameStarTime = coordinate.getTimeCoordinatesWithSameStarTime();
         FileHandler fileHandler = FileHandler(coordinatesWithSameStarTime, config);
         fileHandler.calculateRelatedFiles();
@@ -51,9 +53,6 @@ int main(int argc, char **argv) {
         SummarizeHandler summarizeHandler = SummarizeHandler(fourierHandler.getCalculatedData());
         WriteHandler writeHandler = WriteHandler(config, summarizeHandler.getSummaryForEveryRayInTime(), coordinate);
         writeHandler.write();
-        ++count;
-        if (count > 5)
-            break;
     }
     clReleaseCommandQueue(context.getClCommandQueue());
     clReleaseContext(context.getContext());
@@ -72,4 +71,8 @@ CalibrationDataStorage *readCalibrationDataStorage(const string &path_calibratio
     diff = (clock() - start) / CLOCKS_PER_SEC;
     cout << "reading calibration file took " << diff << " sec" << endl;
     return storage;
+}
+
+std::string tm_tostring(tm* datetime) {
+    return std::to_string(datetime->tm_hour) + ":" + std::to_string(datetime->tm_min) + ":" + std::to_string(datetime->tm_sec);
 }
