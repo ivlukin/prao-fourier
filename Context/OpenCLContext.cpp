@@ -132,9 +132,11 @@ void OpenCLContext::scanDevices() {
                 vendor = (char *) malloc(sizeof(char) * size);
                 clGetDeviceInfo(devices[z], CL_DEVICE_NAME, size, vendor, NULL);
                 std::cout << globalDeviceCount << ") " << vendor << std::endl;
+                delete[] vendor;
             }
         }
     }
+    delete[] platforms;
     int chosenDeviceNumber;
     std::cin >> chosenDeviceNumber;
     std::cout << "initializating OpenCL context..." << std::endl;

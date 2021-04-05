@@ -37,6 +37,8 @@ int FourierHandler::run() {
                         modulus.push_back(modul);
                     }
                     bandMap[band] = modulus;
+                    // очень важно очистить память после перекидывания посчитанных результатов
+                    delete[] result;
                 }
                 ray.setBandMap(bandMap);
                 std::pair<int, Ray> to_insert = std::pair<int, Ray>(_ray + 1, ray);
